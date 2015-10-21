@@ -42,18 +42,19 @@
                    subclassProto, superclassProto = extend.prototype;
                    F.prototype = superclassProto;
                    maktor.prototype = new F();
-                   maktor.constructor = maktor;
+
+
 
                }
 
 
               maktor.constructor =function(){
 
-                  return function(){
+
                       for(var i in config){
                           this.i = config[i];
                       }
-                  }
+
 
               }
               return new maktor();
@@ -91,6 +92,10 @@
                 alert('dsds');
 
             }
+
+
+        var  t = new button();
+
 
 
 
