@@ -12,12 +12,8 @@
 
           var JsExecl = JsExecl ||{};
 
-
-
-
-
           /**
-           * 基础累  ，继承 ，minix ， 配置
+           * 基础 ，继承 ，minix ， 配置
            * @param name
            *    if name eq String 创建一个该类
            *       else 创建继承的类
@@ -30,7 +26,13 @@
 
                this.className = name ;
 
-               function maktor(){};
+
+              function maktor(){};
+
+              if(typeof name == "string"){
+
+                  window[name] = maktor ;
+              }
 
                if(arguments.length == 4){
 
@@ -50,16 +52,6 @@
           }
 
 
-        JsExecl.Observable = function(){
-
-                this.events ={};
-                this.addEvent = function(event){
-                    this.events.push(event);
-
-                }
-
-
-        }
 
         JsExecl.DomHelp = function () {
 
@@ -74,9 +66,13 @@
           }
 
 
-        var button = new  Class('button' , JsExecl.DomHelp ,[] ,[]);
+           Class('button' , JsExecl.DomHelp ,[] ,[]);
 
-             button.aa(2);
+           Class('Mybutton' , button ,[] ,[]);
+
+          var mybutton =  new Mybutton();
+
+                mybutton.aa(1);
 
 
     </script>
