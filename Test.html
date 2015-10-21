@@ -12,6 +12,8 @@
 
           var JsExecl = JsExecl ||{};
 
+        JsExecl.apply
+
           /**
            * 基础 ，继承 ，minix ， 配置
            * @param name
@@ -42,14 +44,22 @@
                    maktor.prototype = new F();
                    maktor.constructor = maktor;
 
-
-
                }
 
+
+              maktor.constructor =function(){
+
+                  return function(){
+                      for(var i in config){
+                          this.i = config[i];
+                      }
+                  }
+
+              }
               return new maktor();
-
-
           }
+
+
 
 
 
@@ -61,12 +71,20 @@
             }
         }
 
-        JsExecl.DomHelp.prototype.aa  = function(a){
-              console.log(a);
-          }
+            JsExecl.DomHelp.prototype.aa  = function(a){
+                  console.log(a);
+              }
 
 
-           Class('button' , JsExecl.DomHelp ,[] ,[]);
+           Class('button' , JsExecl.DomHelp ,[] ,{
+               cls:'button',
+               hover:function(){
+                   console.log(this.cls);
+               },
+               click:function(){},
+
+
+           });
 
             button.prototype.test=function(){
 
@@ -74,13 +92,9 @@
 
             }
 
-           Class('Mybutton' , button ,[] ,[]);
 
-            var  tt = new  Mybutton();
 
-            tt.test();
 
-        //sdsddddddddddd
 
 
 
