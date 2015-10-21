@@ -68,11 +68,19 @@
 
            Class('button' , JsExecl.DomHelp ,[] ,[]);
 
+            button.prototype.test=function(){
+
+                alert('dsds');
+
+            }
+
            Class('Mybutton' , button ,[] ,[]);
 
-          var mybutton =  new Mybutton();
+            var  tt = new  Mybutton();
 
-                mybutton.aa(1);
+            tt.test();
+
+
 
 
     </script>
