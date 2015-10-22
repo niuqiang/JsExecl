@@ -11,10 +11,7 @@
 
 
           var JsExecl = JsExecl ||{};
-
-        JsExecl.apply
-
-          /**
+            /**
            * 基础 ，继承 ，minix ， 配置
            * @param name
            *    if name eq String 创建一个该类
@@ -29,12 +26,12 @@
                this.className = name ;
 
 
-              function maktor(){};
-
-              if(typeof name == "string"){
-
-                  window[name] = maktor ;
-              }
+              function maktor(){
+                  function constructor () {
+                         return this.constructor.apply(this, arguments) || null;
+                  }
+                  return constructor;
+              };
 
                if(arguments.length == 4){
 
@@ -46,22 +43,16 @@
                }
 
               var tmp = maktor();
+              var tmpPrototpye = tmp.prototype ;
 
                 for(var i in config){
 
-
+                    tmpPrototpye[i] = config[i];
 
                 }
 
-
-
-
-              return  tmp;
+                   window[name] = tmp;
           }
-
-
-
-
 
         JsExecl.DomHelp = function () {
 
@@ -71,29 +62,57 @@
             }
         }
 
-            JsExecl.DomHelp.prototype.aa  = function(a){
+        JsExecl.DomHelp.prototype.aa  = function(a){
                   console.log(a);
               }
 
 
-           Class('button' , JsExecl.DomHelp ,[] ,{
-               cls:'button',
-               hover:function(){
-                   console.log(this.cls);
-               },
-               click:function(){},
 
 
-           });
 
-            button.prototype.test=function(){
+        Class('Button' , JsExecl.DomHelp ,[] ,{
+            cls:'button',
+            array:[],
+            hover:function(){
+                console.log(this.cls);
+            },
+            addButton:function(b){
+                this.array.push(b)
+            },
+            showButton:function(){
+              console.log(this.array)  ;
+            },
+            click:function(){},
+            constructor:function(){
+                this.a = [];
+                this.addButton_ =function(a){
 
-                alert('dsds');
+                    this.a.push(a);
+                };
 
+                this.showButton_ =function(){
+                    console.log(this.a);
+                };
+                return this;
             }
 
 
-        var  t = new button();
+        });
+
+
+        var  t = new Button();
+
+        console.log(t)  ;
+
+        t.addButton_('a');
+        t.addButton('b');
+        t.addButton('c');
+
+
+        t.showButton();
+
+        t.showButton_();
+
 
 
 
