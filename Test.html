@@ -43,21 +43,20 @@
                    F.prototype = superclassProto;
                    maktor.prototype = new F();
 
-
-
                }
 
+              var tmp = maktor();
 
-              maktor.constructor =function(){
-
-
-                      for(var i in config){
-                          this.i = config[i];
-                      }
+                for(var i in config){
 
 
-              }
-              return new maktor();
+
+                }
+
+
+
+
+              return  tmp;
           }
 
 
@@ -95,7 +94,6 @@
 
 
         var  t = new button();
-
 
 
 
