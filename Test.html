@@ -33,17 +33,27 @@
                   return constructor;
               };
 
-               if(arguments.length == 4){
 
-                   var  F = function() {},
-                   subclassProto, superclassProto = extend.prototype;
-                   F.prototype = superclassProto;
-                   maktor.prototype = new F();
-
-               }
 
               var tmp = maktor();
               var tmpPrototpye = tmp.prototype ;
+
+                if (arguments.length == 4) {
+
+                    var F = function () {
+                    }, superclassProto = extend.prototype;
+
+                    F.prototype = superclassProto;
+
+
+                    for (var i in  F.prototype) {
+
+                        tmpPrototpye[i] = F.prototype[i];
+
+                    }
+
+                }
+
 
                 for(var i in config){
 
@@ -108,10 +118,8 @@
         t.addButton('b');
         t.addButton('c');
 
+        t.aa();
 
-        t.showButton();
-
-        t.showButton_();
 
 
 
