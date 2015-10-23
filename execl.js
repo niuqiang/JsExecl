@@ -106,4 +106,3 @@ t.addButton_('a');
 t.addButton('b');
 t.addButton('c');
 
-t.aa();

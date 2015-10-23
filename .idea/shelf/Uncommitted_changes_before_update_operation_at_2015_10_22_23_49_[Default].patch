@@ -1,0 +1,121 @@
+Index: Test.html
+===================================================================
+--- Test.html	(revision 452fcf1683162a7be11309a3b75948fbc322156f)
++++ Test.html	(revision 452fcf1683162a7be11309a3b75948fbc322156f)
+@@ -1,116 +0,0 @@
+-<!DOCTYPE html>
+-<html lang="en">
+-<head>
+-    <meta charset="UTF-8">
+-    <title></title>
+-
+-    <script  type="text/javascript" charset="utf-8">
+-
+-
+-        // 时间 2015年10月21日19:52:23
+-
+-
+-          var JsExecl = JsExecl ||{};
+-
+-        JsExecl.apply
+-
+-          /**
+-           * 基础 ，继承 ，minix ， 配置
+-           * @param name
+-           *    if name eq String 创建一个该类
+-           *       else 创建继承的类
+-           * @param extend type String
+-           * @param minix
+-           * @param config
+-           * @constructor
+-           */
+-          function Class(name ,extend , mixins,config){
+-
+-               this.className = name ;
+-
+-
+-              function maktor(){};
+-
+-              if(typeof name == "string"){
+-
+-                  window[name] = maktor ;
+-              }
+-
+-               if(arguments.length == 4){
+-
+-                   var  F = function() {},
+-                   subclassProto, superclassProto = extend.prototype;
+-                   F.prototype = superclassProto;
+-                   maktor.prototype = new F();
+-
+-
+-
+-               }
+-
+-
+-              maktor.constructor =function(){
+-
+-
+-                      for(var i in config){
+-                          this.i = config[i];
+-                      }
+-
+-
+-              }
+-              return new maktor();
+-          }
+-
+-
+-
+-
+-
+-        JsExecl.DomHelp = function () {
+-
+-            this.aa = function(a){
+-
+-                console.log(a);
+-            }
+-        }
+-
+-            JsExecl.DomHelp.prototype.aa  = function(a){
+-                  console.log(a);
+-              }
+-
+-
+-           Class('button' , JsExecl.DomHelp ,[] ,{
+-               cls:'button',
+-               hover:function(){
+-                   console.log(this.cls);
+-               },
+-               click:function(){},
+-
+-
+-           });
+-
+-            button.prototype.test=function(){
+-
+-                alert('dsds');
+-
+-            }
+-
+-
+-        var  t = new button();
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-    </script>
+-</head>
+-
+-
+-<body>
+-
+-</body>
+-</html>

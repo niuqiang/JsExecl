@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <script type="text/javascript">
+
+
+        var reg = /\{([\w\-]+)(?:\:([\w\.]*)(?:\((.*?)?\))?)?\}/g;
+        //   /\{([\w\-]+)(?:\:([\w\.]*)(?:\((.*?)?\))?)?\}/
+
+        var str = '<div><a   herf="{src}"}>{text:ele(10)}</a></div>';
+
+        var values = {};
+
+        (function () {
+
+
+            str = str.replace(reg, function (m, name) {
+
+                return values[name] != undefined ? values[name];
+
+            });
+            ;
+
+            console.log(str);
+
+
+        })()
+
+
+    </script>
+</head>
+<body>
+<div><a herf="{src}" }>{text:ele(10)}</a></div>
+
+</body>
+</html>

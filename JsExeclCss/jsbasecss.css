@@ -1,0 +1,157 @@
+@font-face {
+    font-family: 'LigatureSymbols';
+    src: url('fonts/LigatureSymbols-2.11.eot');
+    src: url('fonts/LigatureSymbols-2.11.eot?#iefix') format('embedded-opentype'),
+    url('fonts/LigatureSymbols-2.11.woff') format('woff'),
+    url('fonts/LigatureSymbols-2.11.ttf') format('truetype'),
+    url('fonts/LigatureSymbols-2.11.svg#LigatureSymbols') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.lsf {
+    font-family: 'LigatureSymbols';
+    -webkit-text-rendering: optimizeLegibility;
+    -moz-text-rendering: optimizeLegibility;
+    -ms-text-rendering: optimizeLegibility;
+    -o-text-rendering: optimizeLegibility;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    -ms-font-smoothing: antialiased;
+    -o-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+    -webkit-font-feature-settings: "liga" 1, "dlig" 1;
+    -moz-font-feature-settings: "liga=1, dlig=1";
+    -ms-font-feature-settings: "liga" 1, "dlig" 1;
+    -o-font-feature-settings: "liga" 1, "dlig" 1;
+    font-feature-settings: "liga" 1, "dlig" 1;
+}
+
+:after, :before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.excel {
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    width: 600px;
+    height: 400px;
+    border: 1px solid #DCDCA4;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+}
+
+.btn {
+    display: inline-block;
+    height: 30px;
+    padding: 2px 12px;
+    margin-bottom: 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 18px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background: #f3f3f3 none;
+    border: 1px solid transparent;
+    border-radius: 1px;
+}
+
+.toolbar {
+    padding: 12px;
+    margin: 2px;
+    border-bottom: 1px solid #e3e3e3;
+}
+
+.menuGroup > .btn + .btn {
+    margin-left: -1px;
+}
+
+.menuGroup > span {
+    padding: 0px;
+    -moz-outline-style: none;
+    font-style: normal;
+}
+
+.menuGroup > span:focus,
+.menuGroup > span:active {
+    -moz-outline-style: none;
+}
+
+.menuGroup {
+    position: relative;
+    display: inline-block;
+    font-size: 0;
+    white-space: nowrap;
+    vertical-align: middle;
+    outline: none;
+}
+
+.menuGroup > .btn:first-child {
+    margin-left: 0;
+    -webkit-border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    -webkit-border-top-left-radius: 4px;
+    border-top-left-radius: 4px;
+    -moz-border-radius-bottomleft: 4px;
+    -moz-border-radius-topleft: 4px;
+}
+
+.menuGroup > .btn:last-child {
+    margin-right: 0;
+    -webkit-border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    border-top-right-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+    -moz-border-radius-topright: 4px;
+}
+
+.menuGroup .btn-default {
+    background-color: #ffffff;
+    border-color: #cccccc;
+    color: #333333;
+    outline: #e3e3e3;
+}
+
+.inputmenuGroup {
+    display: inline-block;
+    height: 30px;
+    padding: 1px 0;
+}
+
+.inputmenuGroup .buttoninput {
+    border: none;
+    height: 24px;
+    padding: 0;
+}
+
+.menuGroup .btn-default:active {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
+    color: #ffff00;
+}
+
+.menuGroup .btn-default:hover {
+    background: #D3F0E0;
+    color: #3d3d3d;
+}
+
+.menuGroup .btn-default .select {
+    background: #9FD5B7;
+    color: #080808;
+}
+
+.contenttab {
+    width: 100%;
+}
