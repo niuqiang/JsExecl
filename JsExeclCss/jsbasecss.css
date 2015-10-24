@@ -127,26 +127,97 @@
 
 .inputmenuGroup {
     display: inline-block;
-    height: 30px;
-    padding: 1px 0;
+    padding: 1px 0px;
+    margin-right: 0;
+    color: #333333;
+    outline: #e3e3e3;
 }
 
-.inputmenuGroup .buttoninput {
-    border: none;
-    height: 24px;
+.inputmenuGroup .input {
+    height: 26px;
+    border: 1px solid rgb(204, 204, 204);
+    padding: 0px 0px 0px 8px;
+    margin: 0px;
+    -webkit-border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    -webkit-border-top-left-radius: 4px;
+    border-top-left-radius: 4px;
+    -moz-border-radius-bottomleft: 4px;
+    -moz-border-radius-topleft: 4px;
+
+}
+
+.inputmenuGroup .input:focus {
+    height: 26px;
+    border: 1px solid rgb(204, 204, 204);
+    outline: none !important;
+    padding: 0px 0px 0px 8px;
+    margin: 0px;
+    -webkit-border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    -webkit-border-top-left-radius: 4px;
+    border-top-left-radius: 4px;
+    -moz-border-radius-bottomleft: 4px;
+    -moz-border-radius-topleft: 4px;
+
+}
+
+.inputmenuGroup .fonttype {
+    width: 140px;
+    font-family: "Bitstream Vera Sans Mono";
+}
+
+.inputmenuGroup .fontsize {
+    width: 40px;
+    font-family: "Bitstream Vera Sans Mono";
+}
+
+.inputmenuGroup .arrow {
+    height: 26px;
+    font-size: 10px;
+    margin: 0px;
+    display: inline-block;
+    float: right;
+    text-align: center;
+    line-height: 24px;
+    border: 1px solid rgb(204, 204, 204);
+    border-left: none;
     padding: 0;
+    width: 10px;
+    cursor: pointer;
+    -webkit-border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    border-top-right-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+    -moz-border-radius-topright: 4px;
+}
+
+.inputmenuGroup:hover {
+    background-color: #D3F0E0;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+}
+
+.inputmenuGroup > span:active {
+    background-color: #9FD5B7;
+    -webkit-border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    border-top-right-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+    -moz-border-radius-topright: 4px;
 }
 
 .menuGroup .btn-default:active {
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
-    color: #ffff00;
-}
-
-.menuGroup .btn-default:hover {
     background: #D3F0E0;
     color: #3d3d3d;
 }
 
+.menuGroup > button:hover {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.125) inset;
+    background: #D3F0E0;
+}
 .menuGroup .btn-default .select {
     background: #9FD5B7;
     color: #080808;
