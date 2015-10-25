@@ -39,20 +39,36 @@ Event.EventManager = new function () {
 };
 
 
-Execljs.Data = function () {
-    this.expando = Execljs.Data.expando + Math.random();
+Execljs.DataObj = {
+    uid: 1,
+    expando: "Execljs" + ( "19870508" + Math.random() ).replace(/\D/g, ""),
+    accepts: function (owner) {
+        return owner.nodeType ?
+        owner.nodeType === 1 || owner.nodeType === 9 : true;
+    },
 }
+
+Execljs.Data = function () {
+
+    Object.defineProperty(this.cache = {}, 0, {
+        get: function () {
+            return {};
+        }
+    });
+    this.expando = Execljs.DataObj.expando + "" + Math.random();
+}
+
 
 Execljs.Data.prototype = {
     key: function (owner) {
-        if (!Execljs.Data.accepts(owner)) {
+        if (!Execljs.DataObj.accepts(owner)) {
             return 0;
         }
         var descriptor = {},
             unlock = owner[this.expando];
 
         if (!unlock) {
-            unlock = Execljs.Data.uid++;
+            unlock = Execljs.DataObj.uid++;
 
             // Secure it in a non-enumerable, non-writable property
             try {
@@ -106,24 +122,17 @@ Execljs.Data.prototype = {
     },
 }
 
-Execljs.Data = {
-    uid: 1,
-    expando: "Execljs" + ( "19870508" + Math.random() ).replace(/\D/g, ""),
-    accepts: function (owner) {
-        return owner.nodeType ?
-        owner.nodeType === 1 || owner.nodeType === 9 : true;
-    },
-    data_priv: new Execljs.Data()
-
-}
+console.log(new Execljs.Data());
 
 
 Event.EventManager.event = {
+    data_priv: new Execljs.Data(),
     guid: 1,
     add: function (elem, types, handler) {
+        console.log(Execljs.DataObj.data_priv);
         var eventHandle,
             events,
-            elemData = Execljs.Data.data_priv.get(elem);
+            elemData = this.data_priv.get(elem);
 
         if (!elemData) {
             return;
@@ -141,9 +150,8 @@ Event.EventManager.event = {
             eventHandle = elemData.handle = function (e) {
                 // Discard the second event of a jQuery.event.trigger() and
                 // when an event is called after a page has unloaded
-                return typeof jQuery !== core_strundefined && (!e || jQuery.event.triggered !== e.type) ?
-                    jQuery.event.dispatch.apply(eventHandle.elem, arguments) :
-                    undefined;
+                return Event.EventManager.event.dispatch.apply(eventHandle.elem, arguments);
+
             };
             // Add elem as a property of the handle fn to prevent a memory leak with IE non-native events
             eventHandle.elem = elem;
@@ -152,13 +160,13 @@ Event.EventManager.event = {
         // Nullify elem to prevent memory leaks in IE
         elem = null;
     }
-
+    dispatch:
 
 }
 Event.EventManager.prototype = {
 
     on: function (type, fn) {
-        Event.EventManager.event.add(this, type, fn);
+        Event.EventManager.event.add(this.el, type, fn);
 
     }
 

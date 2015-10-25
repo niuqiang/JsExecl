@@ -71,8 +71,8 @@ Execljs.onReady(function () {
         cls: 'button',
         array: [],
         values: {},
-        appendTo: function (el) {
-            Execljs.DomHelper.append(el, Execljs.DomHelper.createTemplate(this.tpl), this.values);
+        appendTo: function (_el) {
+            this.el = Execljs.DomHelper.append(_el, Execljs.DomHelper.createTemplate(this.tpl), this.values, this.el);
         },
         constructor: function (tpl) {
             this.tpl = tpl;
@@ -88,10 +88,12 @@ Execljs.onReady(function () {
     var t = new Button(tpl);
 
     t.appendTo('toolbar');
+    t.on('click', function (e) {
 
-    t.on('click', function () {
-        alert('sds');
+        alert(e);
     })
+
+
     console.log(t);
 })
 

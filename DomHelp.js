@@ -50,10 +50,11 @@ Execljs.DomHelper.createTemplate = function (source) {
 
 }
 
-Execljs.DomHelper.doInsert = function (where, el, values, returnElement) {
+Execljs.DomHelper.doInsert = function (where, el, tpl, values) {
 
-    var newNode = Execljs.DomHelper.insertHtml(where, document.getElementById(el), values);
-    return '';
+    var newNode = Execljs.DomHelper.insertHtml(where, document.getElementById(el), tpl, values);
+    returnElement = newNode;
+    return returnElement;
 
 }
 
@@ -101,21 +102,21 @@ Execljs.DomHelper.insertHtml = function (where, el, html) {
 
 }
 
-Execljs.DomHelper.append = function (el, values, returnElement) {
+Execljs.DomHelper.append = function (el, tpl, values, returnElement) {
 
-    return this.doInsert('beforeEnd', el, values, returnElement);
+    return this.doInsert('beforeEnd', el, tpl, values, returnElement);
 }
 
-Execljs.DomHelper.insertAfter = function (el, values, returnElement) {
+Execljs.DomHelper.insertAfter = function (el, tpl, values, returnElement) {
     return this.doInsert('afterEnd', el, values, returnElement);
 }
 
 
-Execljs.DomHelper.insertBefore = function (el, values, returnElement) {
-    return this.doInsert('beforeBegin', el, values, returnElement);
+Execljs.DomHelper.insertBefore = function (el, tpl, values, returnElement) {
+    return this.doInsert('beforeBegin', el, tpl, values, returnElement);
 }
 
 
-Execljs.DomHelper.insertFirst = function (el, values, returnElement) {
-    return this.doInsert('afterBegin', el, values, returnElement);
+Execljs.DomHelper.insertFirst = function (el, tpl, values, returnElement) {
+    return this.doInsert('afterBegin', el, tpl, values, returnElement);
 }
