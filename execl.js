@@ -67,42 +67,36 @@ JsExecl.DomHelp = function () {
 }
 
 
-Class('Button', JsExecl.DomHelp, [], {
+JsExecl.Component = {};
+
+
+Class('Button', JsExecl.Component, [], {
     cls: 'button',
     array: [],
-    hover: function () {
-        console.log(this.cls);
-    },
-    addButton: function (b) {
-        this.array.push(b)
-    },
-    showButton: function () {
-        console.log(this.array);
-    },
-    click: function () {
-    },
-    constructor: function () {
-        this.a = [];
-        this.addButton_ = function (a) {
+    values: {},
+    appendTo: function (el) {
 
-            this.a.push(a);
-        };
 
-        this.showButton_ = function () {
-            console.log(this.a);
-        };
+        Execljs.DomHelper.append(el, Execljs.DomHelper.createTemplate(this.tpl), this.values);
+    },
+
+    constructor: function (tpl) {
+        this.tpl = tpl;
+
         return this;
     }
 
 
 });
 
+var tpl = '<div class="inputmenuGroup">' +
+    '   <input type="text" style="font-family: Consolas" class="input buttoninput  fonttype" value="Consolas"/>' +
+    '  <span class="lsf arrow">dropdown</span>' +
+    '</div>';
+var t = new Button(tpl);
 
-var t = new Button();
-
+t.appendTo('toolbar');
 console.log(t);
 
-t.addButton_('a');
-t.addButton('b');
-t.addButton('c');
+
 
