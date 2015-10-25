@@ -81,9 +81,6 @@ Execljs.DomHelper.insertHtml = function (where, el, html) {
     }
     else {
         rangeEl = (where == 'afterbegin' ? 'first' : 'last') + 'Child';
-
-        console.log(el);
-
         if (el.firstChild) {
             range[setStart](el[rangeEl]);
             frag = range.createContextualFragment(html);
