@@ -1,124 +1,165 @@
-/**
- *  模板创建html代码时, 对有Id 的对象单独处理 ,添加事件,进行封装;
- * @param tag
- */
-
-var Execljs = {};
-
-(Execljs.DomHelper == null ? Execljs.DomHelper = {} : Execljs.DomHelper).createHtml = function (tag) {
-
-
-}
+// @tag dom,core
+// @require util/Event.js
+// @define Execljs.EventManager
 
 /**
- * Lightweight template used to build the output string from variables.
- *        // HTML template for presenting a label UI.
- *        var tpl = new Execljs.template( '<div class="{cls}">{label}</div>' );
- *        alert( tpl.output( { cls: 'cke-label', label: 'foo'} ) ); // '<div class="cke-label">foo</div>'
- *
- * @class
- * @constructor Creates a template class instance.
- * @param {String} source The template source.
+ * Registers event handlers that want to receive a normalized EventObject instead of the standard browser event and provides
+ * several useful events directly.
  */
-Execljs.DomHelper.createTemplate = function (source) {
+Event.EventManager = new function () {
+    var EventManager = this,
+        doc = document,
+        win = window,
+        escapeRx = /\\/g;
 
-    var cache = {},
-        rePlaceholder = /{([^}]+)}/g,
-        reEscapableChars = /([\\'])/g,
-        reNewLine = /\n/g,
-        reCarriageReturn = /\r/g;
+    Execljs.apply = function (object, config, defaults) {
+        if (defaults) {
+            Ext.apply(object, defaults);
+        }
 
-    if (cache[source])
-        this.output = cache[source];
-    else {
-        var fn = source
-            // Escape chars like slash "\" or single quote "'".
-            .replace(reEscapableChars, '\\$1')
-            .replace(reNewLine, '\\n')
-            .replace(reCarriageReturn, '\\r')
-            // Inject the template keys replacement.
-            .replace(rePlaceholder, function (m, key) {
-                return "',data['" + key + "']==undefined?'{" + key + "}':data['" + key + "'],'";
-            });
+        if (object && config && typeof config === 'object') {
+            var i, j, k;
 
-        fn = "return buffer?buffer.push('" + fn + "'):['" + fn + "'].join('');";
-
-        this.output = cache[source] = Function('data', 'buffer', fn);
-    }
-
-    return this.output();
-
-}
-
-Execljs.DomHelper.doInsert = function (where, el, values, returnElement) {
-
-    var newNode = Execljs.DomHelper.insertHtml(where, document.getElementById(el), values);
-    return '';
-
-}
-
-Execljs.DomHelper.insertHtml = function (where, el, html) {
-
-    var hash = {},
-        setStart,
-        range,
-        frag,
-        rangeEl;
-
-    where = where.toLowerCase();
-
-    // add these here because they are used in both branches of the condition.
-    hash['beforebegin'] = ['BeforeBegin', 'previousSibling'];
-    hash['afterend'] = ['AfterEnd', 'nextSibling'];
-
-    range = document.createRange();
-    setStart = 'setStart' + (/end/i.test(where) ? 'After' : 'Before');
-    if (hash[where]) {
-        range[setStart](el);
-        frag = range.createContextualFragment(html);
-        el.parentNode.insertBefore(frag, where == 'beforebegin' ? el : el.nextSibling);
-        return el[(where == 'beforebegin' ? 'previous' : 'next') + 'Sibling'];
-    }
-    else {
-        rangeEl = (where == 'afterbegin' ? 'first' : 'last') + 'Child';
-
-        console.log(el);
-
-        if (el.firstChild) {
-            range[setStart](el[rangeEl]);
-            frag = range.createContextualFragment(html);
-            if (where == 'afterbegin') {
-                el.insertBefore(frag, el.firstChild);
-            }
-            else {
-                el.appendChild(frag);
+            for (i in config) {
+                object[i] = config[i];
             }
         }
-        else {
-            el.innerHTML = html;
+
+        return object;
+    };
+
+
+    Execljs.onReady = function (fn) {
+
+        document.addEventListener("DOMContentLoaded", fn, false);
+
+        // A fallback to window.onload, that will always work
+        // window.addEventListener( "load", fn, false );
+    }
+};
+
+
+Execljs.Data = function () {
+    this.expando = Execljs.Data.expando + Math.random();
+}
+
+Execljs.Data.prototype = {
+    key: function (owner) {
+        if (!Execljs.Data.accepts(owner)) {
+            return 0;
         }
-        return el[rangeEl];
+        var descriptor = {},
+            unlock = owner[this.expando];
+
+        if (!unlock) {
+            unlock = Execljs.Data.uid++;
+
+            // Secure it in a non-enumerable, non-writable property
+            try {
+                descriptor[this.expando] = {value: unlock};
+                Object.defineProperties(owner, descriptor);
+
+                // Support: Android < 4
+                // Fallback to a less secure definition
+            } catch (e) {
+                descriptor[this.expando] = unlock;
+                jQuery.extend(owner, descriptor);
+            }
+        }
+
+        // Ensure the cache object
+        if (!this.cache[unlock]) {
+            this.cache[unlock] = {};
+        }
+
+        return unlock;
+
+    },
+    set: function (owner, data, value) {
+        var prop,
+        // There may be an unlock assigned to this node,
+        // if there is no entry for this "owner", create one inline
+        // and set the unlock as though an owner entry had always existed
+            unlock = this.key(owner),
+            cache = this.cache[unlock];
+
+        // Handle: [ owner, key, value ] args
+        if (typeof data === "string") {
+            cache[data] = value;
+        } else {
+            for (prop in data) {
+                cache[prop] = data[prop];
+            }
+
+        }
+        return cache;
+    },
+    get: function (owner, key) {
+        // Either a valid cache is found, or will be created.
+        // New caches will be created and the unlock returned,
+        // allowing direct access to the newly created
+        // empty data object. A valid owner object must be provided.
+        var cache = this.cache[this.key(owner)];
+
+        return key === undefined ?
+            cache : cache[key];
+    },
+}
+
+Execljs.Data = {
+    uid: 1,
+    expando: "Execljs" + ( "19870508" + Math.random() ).replace(/\D/g, ""),
+    accepts: function (owner) {
+        return owner.nodeType ?
+        owner.nodeType === 1 || owner.nodeType === 9 : true;
+    },
+    data_priv: new Execljs.Data()
+
+}
+
+
+Event.EventManager.event = {
+    guid: 1,
+    add: function (elem, types, handler) {
+        var eventHandle,
+            events,
+            elemData = Execljs.Data.data_priv.get(elem);
+
+        if (!elemData) {
+            return;
+        }
+
+        if (!handler.guid) {
+            handler.guid = Event.EventManager.guid++;
+        }
+
+        // Init the element's event structure and main handler, if this is the first
+        if (!(events = elemData.events)) {
+            events = elemData.events = {};
+        }
+        if (!(eventHandle = elemData.handle)) {
+            eventHandle = elemData.handle = function (e) {
+                // Discard the second event of a jQuery.event.trigger() and
+                // when an event is called after a page has unloaded
+                return typeof jQuery !== core_strundefined && (!e || jQuery.event.triggered !== e.type) ?
+                    jQuery.event.dispatch.apply(eventHandle.elem, arguments) :
+                    undefined;
+            };
+            // Add elem as a property of the handle fn to prevent a memory leak with IE non-native events
+            eventHandle.elem = elem;
+        }
+
+        // Nullify elem to prevent memory leaks in IE
+        elem = null;
     }
 
-    throw 'Illegal insertion point -> "' + where + '"';
 
 }
+Event.EventManager.prototype = {
 
-Execljs.DomHelper.append = function (el, values, returnElement) {
+    on: function (type, fn) {
+        Event.EventManager.event.add(this, type, fn);
 
-    return this.doInsert('beforeEnd', el, values, returnElement);
-}
+    }
 
-Execljs.DomHelper.insertAfter = function (el, values, returnElement) {
-    return this.doInsert('afterEnd', el, values, returnElement);
-}
-
-
-Execljs.DomHelper.insertBefore = function (el, values, returnElement) {
-    return this.doInsert('beforeBegin', el, values, returnElement);
-}
-
-
-Execljs.DomHelper.insertFirst = function (el, values, returnElement) {
-    return this.doInsert('afterBegin', el, values, returnElement);
 }
