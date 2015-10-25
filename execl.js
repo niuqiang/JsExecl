@@ -4,7 +4,8 @@
 // 时间 2015年10月21日19:52:23
 
 
-var JsExecl = JsExecl || {};
+var Execljs = Execljs || {};
+
 /**
  * 基础 ，继承 ，minix ， 配置
  * @param name
@@ -41,13 +42,16 @@ function Class(name, extend, mixins, config) {
 
 
         for (var i in  F.prototype) {
-
             tmpPrototpye[i] = F.prototype[i];
-
         }
-
     }
+    for (var j in mixins) {
 
+        var mixinsPro = mixins[j].prototype;
+
+        for (var y in mixinsPro)
+            tmpPrototpye[y] = mixinsPro[y];
+    }
 
     for (var i in config) {
 
@@ -58,45 +62,40 @@ function Class(name, extend, mixins, config) {
     window[name] = tmp;
 }
 
-JsExecl.DomHelp = function () {
-
-    this.aa = function (a) {
-
-        console.log(a);
-    }
-}
+Execljs.Component = {};
 
 
-JsExecl.Component = {};
+Execljs.onReady(function () {
+
+    Class('Button', Execljs.Component, [Event.EventManager], {
+        cls: 'button',
+        array: [],
+        values: {},
+        appendTo: function (el) {
+            Execljs.DomHelper.append(el, Execljs.DomHelper.createTemplate(this.tpl), this.values);
+        },
+        constructor: function (tpl) {
+            this.tpl = tpl;
+            return this;
+        }
+
+    });
+
+    var tpl = '<div class="inputmenuGroup">' +
+        '   <input type="text" style="font-family: Consolas" class="input buttoninput  fonttype" value="Consolas"/>' +
+        '  <span class="lsf arrow">dropdown</span>' +
+        '</div>';
+    var t = new Button(tpl);
+
+    t.appendTo('toolbar');
+
+    t.on('click', function () {
+        alert('sds');
+    })
+    console.log(t);
+})
 
 
-Class('Button', JsExecl.Component, [], {
-    cls: 'button',
-    array: [],
-    values: {},
-    appendTo: function (el) {
-
-
-        Execljs.DomHelper.append(el, Execljs.DomHelper.createTemplate(this.tpl), this.values);
-    },
-
-    constructor: function (tpl) {
-        this.tpl = tpl;
-
-        return this;
-    }
-
-
-});
-
-var tpl = '<div class="inputmenuGroup">' +
-    '   <input type="text" style="font-family: Consolas" class="input buttoninput  fonttype" value="Consolas"/>' +
-    '  <span class="lsf arrow">dropdown</span>' +
-    '</div>';
-var t = new Button(tpl);
-
-t.appendTo('toolbar');
-console.log(t);
 
 
 
