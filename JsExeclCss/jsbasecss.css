@@ -37,7 +37,7 @@
 .excel {
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
-    width: 600px;
+    width: 880px;
     height: 400px;
     border: 1px solid #DCDCA4;
     box-sizing: border-box;
@@ -93,6 +93,7 @@
     position: relative;
     display: inline-block;
     font-size: 0;
+    margin-right: 10px;
     white-space: nowrap;
     vertical-align: middle;
     outline: none;
@@ -128,7 +129,7 @@
 .inputmenuGroup {
     display: inline-block;
     padding: 1px 0px;
-    margin-right: 0;
+    margin-right: 10px;
     color: #333333;
     outline: #e3e3e3;
 }
@@ -226,3 +227,59 @@
 .contenttab {
     width: 100%;
 }
+
+.contenttab table {
+    border: none;
+    padding: 0px;
+    border-spacing: 0px;
+
+}
+.contenttab table td {
+    border: 1px solid #d3d3d3;
+    background-color: #E6EDF7;
+    border-left: none;
+    margin: 0px;
+    padding: 4px 12px;
+    width: 52px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: Consolas;
+
+}
+
+.contenttab table td:first-child {
+    border: 1px solid #d3d3d3;
+    border-left: none;
+    width: 24px;
+    background-color: #E6EDF7;
+    margin: 0px;
+    padding: 4px 4px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.contenttab .headcontent {
+    width: 100%;
+    text-align: center;
+
+}
+
+.list{
+    float: left;
+
+}
+
+
+.rownum{
+    padding: 4px 4px;
+    font-size: 12px;
+    font-family: Consolas;
+    width: 24px;
+    border: 1px solid #d3d3d3;
+    border-left: none;
+    border-top: none;
+    line-height: 12px;
+    background-color: #E6EDF7;
+    text-align: center;
+}
+

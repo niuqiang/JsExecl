@@ -89,13 +89,44 @@ Execljs.onReady(function () {
 
     var t = new Button(tpl);
 
-    var t2 = new Button('        <div class="inputmenuGroup">' +
+    var t2 = new Button(
+        '<div class="inputmenuGroup">' +
         '<input type="text" class="input buttoninput fontsize  " value="12px"/>' +
         '<span class="lsf arrow">dropdown</span>' +
         '</div>');
 
+    var t3 = new Button(
+        ' <div class="menuGroup">' +
+        '<button type="button" class="btn btn-default">' +
+        '<span class="lsf">bold</span>' +
+        '</button>' +
+        '<button type="button" class="btn btn-default">' +
+        '<span class="lsf">italic</span>' +
+        '</button>' +
+        '<button type="button" class="btn btn-default">' +
+        '<span class="lsf">underline</span>' +
+        '</button>' +
+       ' </div>'
+            );
+
+    var t4 = new Button(
+        '<div class="menuGroup">' +
+        '<button type="button" class="btn btn-default">' +
+        '<span class="lsf">alignleft</span>' +
+        '</button>' +
+        '<button type="button" class="btn btn-default">' +
+        '<span class="lsf">aligncenter</span>' +
+        '</button>' +
+        '<button type="button" class="btn btn-default">' +
+        '<span class="lsf">alignright</span>' +
+        '</button>' +
+        '</div>'
+    );
+
     t.appendTo('toolbar');
     t2.appendTo('toolbar');
+    t3.appendTo('toolbar');
+    t4.appendTo('toolbar');
 
     t2.on('mouseover' ,function(){
         console.log(121);
@@ -110,7 +141,6 @@ Execljs.onReady(function () {
         alert('sclicksclickss');
 
     })
-    t.trigger('clicks');
 
 
 })
