@@ -4640,8 +4640,7 @@
                     }
                 }
             }
-
-            return event.result;
+           return event.result;
         },
 
         dispatch: function (event) {

@@ -81,20 +81,38 @@ Execljs.onReady(function () {
 
     });
 
-    var tpl = '<div class="inputmenuGroup">' +
-        '   <input type="text" style="font-family: Consolas" class="input buttoninput  fonttype" value="Consolas"/>' +
-        '  <span class="lsf arrow">dropdown</span>' +
-        '</div>';
+    var tpl =   '<div class="inputmenuGroup">' +
+                '   <input type="text" style="font-family: Consolas" class="input buttoninput  fonttype" value="Consolas"/>' +
+                '   <span class="lsf arrow">dropdown</span>' +
+                '</div>';
+
+
     var t = new Button(tpl);
 
+    var t2 = new Button('        <div class="inputmenuGroup">' +
+        '<input type="text" class="input buttoninput fontsize  " value="12px"/>' +
+        '<span class="lsf arrow">dropdown</span>' +
+        '</div>');
+
     t.appendTo('toolbar');
-    t.on('click', function (e) {
+    t2.appendTo('toolbar');
 
-        alert(e);
+    t2.on('mouseover' ,function(){
+        console.log(121);
+
     })
+    t.on('click', function (e) {
+        alert('sds');
+
+    });
+
+    t.on('clicks', function (e) {
+        alert('sclicksclickss');
+
+    })
+    t.trigger('clicks');
 
 
-    console.log(t);
 })
 
 

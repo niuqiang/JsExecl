@@ -75,11 +75,9 @@ Execljs.Data.prototype = {
                 descriptor[this.expando] = {value: unlock};
                 Object.defineProperties(owner, descriptor);
 
-                // Support: Android < 4
-                // Fallback to a less secure definition
             } catch (e) {
                 descriptor[this.expando] = unlock;
-                jQuery.extend(owner, descriptor);
+                Execljs.apply(owner, descriptor);
             }
         }
 
@@ -122,14 +120,11 @@ Execljs.Data.prototype = {
     },
 }
 
-console.log(new Execljs.Data());
-
-
 Event.EventManager.event = {
     data_priv: new Execljs.Data(),
     guid: 1,
-    add: function (elem, types, handler) {
-        console.log(Execljs.DataObj.data_priv);
+    add: function (elem, type, handler) {
+
         var eventHandle,
             events,
             elemData = this.data_priv.get(elem);
@@ -139,8 +134,16 @@ Event.EventManager.event = {
         }
 
         if (!handler.guid) {
-            handler.guid = Event.EventManager.guid++;
+            handler.guid = Event.EventManager.event.guid++;
         }
+
+
+        handleObj =  Execljs.apply({
+            type: type,
+            origType: type,
+            handler: handler,
+            guid: handler.guid
+        });
 
         // Init the element's event structure and main handler, if this is the first
         if (!(events = elemData.events)) {
@@ -153,20 +156,160 @@ Event.EventManager.event = {
                 return Event.EventManager.event.dispatch.apply(eventHandle.elem, arguments);
 
             };
-            // Add elem as a property of the handle fn to prevent a memory leak with IE non-native events
+
+            if (elem.addEventListener) {
+                elem.addEventListener(type, eventHandle, false);
+            }
             eventHandle.elem = elem;
         }
 
+        // Add elem as a property of the handle fn to prevent a memory leak with IE non-native events
+        if (!(handlers = events[type])) {
+            handlers = events[type] = [];
+            handlers.push(handleObj);
+        }
+
+
         // Nullify elem to prevent memory leaks in IE
         elem = null;
+    },
+    dispatch: function (event) {
+
+        // Make a writable jQuery.Event from the native event object
+        event = Event.EventManager.event.fix(event);
+
+        var i, j, ret, matched, handleObj,
+            handlerQueue = [],
+            args = [].slice.call(arguments),
+            handlers = ( Event.EventManager.event.data_priv.get(this, "events") || {} )[event.type] || []
+
+        args[0] = event;
+        event.delegateTarget = this;
+
+        handlerQueue =  handlers ;
+
+        i = 0;
+        while ((matched = handlerQueue[i++])  ) {
+            event.currentTarget = matched.elem;
+
+            j = 0;
+                     event.handleObj = matched.handler;
+
+                    ret =   event.handleObj.apply(matched.elem, args);
+
+                    if (ret !== undefined) {
+                        if ((event.result = ret) === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                    }
+        }
+        return event.result;
+    },
+    fix:function(event){
+        if (event[Execljs.DataObj.expando]) {
+            return event;
+        }
+
+        // Create a writable copy of the event object and normalize some properties
+        var i, prop, copy,
+            type = event.type,
+            originalEvent = event,
+
+        event = new Event.EventManager.Event(originalEvent);
+
+        // Support: Cordova 2.5 (WebKit) (#13255)
+        // All events should have a target; Cordova deviceready doesn't
+        if (!event.target) {
+            event.target = document;
+        }
+
+        // Support: Safari 6.0+, Chrome < 28
+        // Target should not be a text node (#504, #13143)
+        if (event.target.nodeType === 3) {
+            event.target = event.target.parentNode;
+        }
+
+        return  event;
+
+    },
+    trigger:function(event, data, elem, onlyHandlers){
+
+        var i, cur, tmp, bubbleType, ontype, handle, special,
+            eventPath = [elem || document],
+            type = {}.hasOwnProperty.call(event, "type") ? event.type : event,
+       //     namespaces = {}.hasOwnProperty.call(event, "namespace") ? event.namespace.split(".") : [];
+
+        cur = tmp = elem = elem || document;
+
+        // Don't do events on text and comment nodes
+        if (elem.nodeType === 3 || elem.nodeType === 8) {
+            return;
+        }
+
+        ontype = type.indexOf(":") < 0 && "on" + type;
+
+        // Caller can pass in a jQuery.Event object, Object, or just an event type string
+        event = event[Execljs.DataObj.expando] ?  event :   new  Event.EventManager.Event(event );
+
+        // Trigger bitmask: & 1 for native handlers; & 2 for jQuery (always true)
+        event.isTrigger = onlyHandlers ? 2 : 3;
+
+        event.result = undefined;
+        if (!event.target) {
+            event.target = elem;
+        }
+
+        i = 0;
+        while ((cur = eventPath[i++]) ) {
+
+
+            handle = ( Event.EventManager.event.data_priv.get(cur, "events") || {} )[event.type] && Event.EventManager.event.data_priv.get(cur, "handle");
+            if (handle) {
+                handle.apply(cur, [event.type]);
+            }
+
+        }
+        event.type = type;
+        return event.result;
     }
-    dispatch:
+
 
 }
+
+Event.EventManager.Event = function (src, props) {
+    // Allow instantiation without the 'new' keyword
+    if (!(this instanceof Event.EventManager.Event)) {
+        return new Event.EventManager.Event(src, props);
+    }
+
+    // Event object
+    if (src && src.type) {
+        this.originalEvent = src;
+        this.type = src.type;
+
+        // Events bubbling up the document may have been marked as prevented
+        // by a handler lower down the tree; reflect the correct value.
+        this.isDefaultPrevented = ( src.defaultPrevented ||
+        src.getPreventDefault && src.getPreventDefault() ) ? function(){return false} : function(){return true};
+
+        // Event type
+    } else {
+        this.type = src;
+    }
+
+    // Mark it as fixed
+    this[Execljs.DataObj.expando] = true;
+};
 Event.EventManager.prototype = {
 
     on: function (type, fn) {
         Event.EventManager.event.add(this.el, type, fn);
+
+    },
+
+    trigger:function(type){
+        Event.EventManager.event.trigger( type ,{},this.el );
 
     }
 
