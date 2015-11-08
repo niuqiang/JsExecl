@@ -39,9 +39,11 @@
     -webkit-border-radius: 10px;
     width: 880px;
     height: 400px;
+    overflow: hidden;
     border: 1px solid #DCDCA4;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
+    position: relative;
 
 }
 
@@ -219,6 +221,7 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.125) inset;
     background: #D3F0E0;
 }
+
 .menuGroup .btn-default .select {
     background: #9FD5B7;
     color: #080808;
@@ -234,6 +237,7 @@
     border-spacing: 0px;
 
 }
+
 .contenttab table td {
     border: 1px solid #d3d3d3;
     background-color: #E6EDF7;
@@ -244,6 +248,17 @@
     font-size: 12px;
     font-weight: 600;
     font-family: Consolas;
+
+}
+
+.contenttab .triTop {
+
+    padding: 4px 2px;
+    font-size: 12px;
+    display: block;
+    width: 20px;
+    line-height: 12px;
+    text-align: center;
 
 }
 
@@ -264,13 +279,7 @@
 
 }
 
-.list{
-    float: left;
-
-}
-
-
-.rownum{
+.rownum {
     padding: 4px 4px;
     font-size: 12px;
     font-family: Consolas;
@@ -283,3 +292,31 @@
     text-align: center;
 }
 
+/*  ÎÄ¼þ±êÇ©Ò³css */
+
+.bottom {
+    width: 100%;
+    height: 32px;
+    line-height: 28px;
+    position: absolute;
+    border-top: 1px solid #d3d3d3;
+    background-color: white;
+    bottom: 0px;
+}
+
+.selecttab {
+    padding: 4px 2px;
+    font-size: 12px;
+    display: block;
+    width: 32px;
+    height: 20px;
+    line-height: 24px;
+    text-align: center;
+    float: left;
+    border: 1px solid salmon;
+}
+
+.selecttab .addsheet {
+    display: block;
+
+}
