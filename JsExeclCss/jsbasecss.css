@@ -37,8 +37,8 @@
 .excel {
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
-    width: 880px;
-    height: 400px;
+    width: 900px;
+    height: 500px;
     overflow: hidden;
     border: 1px solid #DCDCA4;
     box-sizing: border-box;
@@ -227,6 +227,15 @@
     color: #080808;
 }
 
+.contentview{
+    position: relative;
+    width: 100%;
+    position: absolute;
+    top: 80px;
+    bottom: 0px;
+}
+
+
 .contenttab {
     width: 100%;
 }
@@ -305,18 +314,174 @@
 }
 
 .selecttab {
+    padding: 2px 2px;
+    font-size: 12px;
+    display: block;
+    width: 32px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    float: left;
+}
+
+.selecttab .addsheet {
+    color: green;
+    font-size: 10px;
+}
+
+.selecttab .selectsheet {
+    color: green;
+    font-size: 10px;
+}
+
+.tabItem {
+    float: left;
+    width: 300px;
+    line-height: 20px;
+    height: 24px;
+
+}
+
+.tabfile {
+    padding: 2px 6px;
+    float: left;
+    margin-right: 8px;
+    line-height: 20px;
+    height: 20px;
+    cursor: pointer;
+    border: 1px solid #c8cbc9;
+    border-top-width: 0;
+    background: #e8e8e8;
+}
+
+.tabfile.active {
+    top: -1px;
+    height: 21px;
+    position: relative;
+    cursor: pointer;
+    background: #fff;
+
+}
+
+.bottom {
+    width: 100%;
+    height: 32px;
+    line-height: 28px;
+    position: absolute;
+    border-top: 1px solid #d3d3d3;
+    background-color: white;
+    bottom: 0px;
+}
+
+.selecttab {
     padding: 4px 2px;
     font-size: 12px;
     display: block;
     width: 32px;
     height: 20px;
-    line-height: 24px;
+    line-height: 12px;
     text-align: center;
     float: left;
-    border: 1px solid salmon;
+
 }
 
 .selecttab .addsheet {
-    display: block;
+    display: inline-block;
 
+}
+
+.hscrollbar {
+    width: 360px;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+}
+
+.dividingline{
+    width:7px;
+    height: 16px;
+    float: left;
+    position: relative;
+    top: 2px;
+    background: url('../images/sprite.png') no-repeat 0px -3695px;
+    cursor: col-resize;
+}
+
+.hscrollbarContainer {
+    float: left;
+    top: 3px;
+    position: relative;
+}
+
+.hscrollbarConrtent {
+    width: 120px;
+    height: 14px;
+    position: absolute;
+    left: 20px;
+    background-color:#BCBCBC;
+}
+
+.vscrollbarContainer{
+
+    height: 100px;
+    position: absolute;
+    left: 0px;
+    background-color:#BCBCBC;
+}
+
+.scrollbararrow {
+    width: 12px;
+    height: 14px;
+    color: green;
+    position: relative;
+    line-height: 12px;
+    padding: 2px 2px 0px;
+
+}
+
+.scrollbararrow:hover {
+    background: #BCBCBC;
+    cursor: pointer;
+    height: 14px;
+
+}
+
+.arrowleft {
+    float: left;
+}
+
+.arrowright {
+    float: right;
+    margin-right: 14px;
+
+}
+
+.vscrollbar{
+    float: right;
+    width: 16px;
+    border-top: 1px solid RGB(211,211,211);
+    background-color: RGB(241,241,241);
+    right: 0px;
+    top: 0px;
+    bottom:34px;
+    position: absolute;
+}
+.vscrollbarConrtent{
+    height: 200px;
+    position: absolute;
+    top: 30px;
+    width: 16px;
+    background-color:#BCBCBC;
+
+}
+
+.arrowtop{
+    top: 22px;
+
+}
+
+.arrowdown{
+    bottom: 0px;
+    position: absolute;
 }
