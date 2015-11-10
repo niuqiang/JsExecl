@@ -227,14 +227,13 @@
     color: #080808;
 }
 
-.contentview{
+.contentview {
     position: relative;
     width: 100%;
     position: absolute;
     top: 80px;
     bottom: 0px;
 }
-
 
 .contenttab {
     width: 100%;
@@ -252,12 +251,43 @@
     background-color: #E6EDF7;
     border-left: none;
     margin: 0px;
-    padding: 4px 12px;
+    padding: 4px 1px;
     width: 52px;
     font-size: 12px;
     font-weight: 600;
     font-family: Consolas;
+    overflow: hidden;
 
+}
+
+.list table tbody tr td:first-child {
+    border: 1px solid #d3d3d3;
+    border-left: none;
+    border-top: none;
+    width: 24px;
+    background-color: #E6EDF7;
+    margin: 0px;
+    padding: 0px 4px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.list table tbody tr td div {
+    text-align: center;
+    position: relative;
+    padding: 4px;
+
+}
+
+.list .deltaY {
+    position: absolute;
+    border: none;
+    bottom: -6px;
+    height: 4px;
+    cursor: row-resize;
+    width: 120%;
+    left: -4px;
+    /*background: red;*/
 }
 
 .contenttab .triTop {
@@ -272,23 +302,17 @@
 }
 
 .contenttab table td:first-child {
-    border: 1px solid #d3d3d3;
+    border: 1px solid rgb(211, 211, 211);
     border-left: none;
     width: 24px;
-    background-color: #E6EDF7;
+    background-color: rgb(230, 237, 247);
     margin: 0px;
     padding: 4px 4px;
     font-size: 12px;
     font-weight: 600;
 }
 
-.contenttab .headcontent {
-    width: 100%;
-    text-align: center;
-
-}
-
-.rownum {
+.list > div {
     padding: 4px 4px;
     font-size: 12px;
     font-family: Consolas;
@@ -398,8 +422,8 @@
 
 }
 
-.dividingline{
-    width:7px;
+.dividingline {
+    width: 7px;
     height: 16px;
     float: left;
     position: relative;
@@ -419,15 +443,15 @@
     height: 14px;
     position: absolute;
     left: 20px;
-    background-color:#BCBCBC;
+    background-color: #BCBCBC;
 }
 
-.vscrollbarContainer{
+.vscrollbarContainer {
 
     height: 100px;
     position: absolute;
     left: 0px;
-    background-color:#BCBCBC;
+    background-color: #BCBCBC;
 }
 
 .scrollbararrow {
@@ -457,31 +481,32 @@
 
 }
 
-.vscrollbar{
+.vscrollbar {
     float: right;
     width: 16px;
-    border-top: 1px solid RGB(211,211,211);
-    background-color: RGB(241,241,241);
+    border-top: 1px solid RGB(211, 211, 211);
+    background-color: RGB(241, 241, 241);
     right: 0px;
     top: 0px;
-    bottom:34px;
+    bottom: 34px;
     position: absolute;
 }
-.vscrollbarConrtent{
+
+.vscrollbarConrtent {
     height: 200px;
     position: absolute;
     top: 30px;
     width: 16px;
-    background-color:#BCBCBC;
+    background-color: #BCBCBC;
 
 }
 
-.arrowtop{
+.arrowtop {
     top: 22px;
 
 }
 
-.arrowdown{
+.arrowdown {
     bottom: 0px;
     position: absolute;
 }
