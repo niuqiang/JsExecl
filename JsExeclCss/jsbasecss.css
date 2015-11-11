@@ -290,6 +290,17 @@
     /*background: red;*/
 }
 
+.head {
+    width: 9999px;
+
+}
+
+.head table tbody td {
+
+    width: 62px;
+    overflow: hidden;
+}
+
 .contenttab .triTop {
 
     padding: 4px 2px;
@@ -298,6 +309,21 @@
     width: 20px;
     line-height: 12px;
     text-align: center;
+
+}
+
+.contenttab table td > div.headcontent {
+
+}
+
+.contenttab .deltaX {
+    position: absolute;
+    border: none;
+    width: 4px;
+    cursor: col-resize;
+    height: 140%;
+    right: -1px;
+    top: -3px;
 
 }
 
@@ -310,6 +336,13 @@
     padding: 4px 4px;
     font-size: 12px;
     font-weight: 600;
+}
+
+.contenttab .head table tbody div {
+
+    text-align: center;
+    position: relative;
+
 }
 
 .list > div {
