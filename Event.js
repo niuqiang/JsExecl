@@ -24,10 +24,8 @@ Event.EventManager = new function () {
                 object[i] = config[i];
             }
         }
-
         return object;
     };
-
 
     Execljs.onReady = function (fn) {
 

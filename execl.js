@@ -25,7 +25,6 @@ function Class(name, extend, mixins, config) {
         function constructor() {
             return this.constructor.apply(this, arguments) || null;
         }
-
         return constructor;
     };
 
