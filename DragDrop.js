@@ -1,0 +1,112 @@
+/**
+ * Created by Administrator on 2015-11-12.
+ */
+
+
+Execljs.DragDropManager = function(){};
+
+DragDropManagerProto =  Execljs.DragDropManager.prototype;
+
+DragDropManagerProto ={
+
+    handleMouseDown :function(e){
+        var me = this,  el;
+
+        me.currentTarget = e.getTarget();
+
+        me.dragCurrent = oDD;
+
+        me.currentTarget = e.getTarget();
+        me.dragCurrent = oDD;
+
+        el = oDD.getEl();
+
+        me.startX = e.getPageX();
+        me.startY = e.getPageY();
+
+        me.deltaX = me.startX - el.offsetLeft;
+        me.deltaY = me.startY - el.offsetTop;
+
+        me.dragThreshMet = false;
+
+        me.clickTimeout = setTimeout(
+            function() {
+                me.startDrag(me.startX, me.startY);
+            },
+           30
+        );
+    },
+
+    startDrag: function(x, y) {
+        var me = this,
+            current = me.dragCurrent,
+            dragEl;
+
+        clearTimeout(me.clickTimeout);
+        if (current) {
+
+            current.startDrag(x, y);
+            dragEl = current.getDragEl();
+
+            // Add current drag class to dragged element
+            if (dragEl) {
+             //   Ext.fly(dragEl).addCls(me.dragCls);
+            }
+        }
+        me.dragThreshMet = true;
+    },
+
+    stopEvent: function(e) {
+        if (this.stopPropagation) {
+            e.stopPropagation();
+        }
+
+        if (this.preventDefault) {
+            e.preventDefault();
+        }
+    },
+
+
+}
+
+DragDrop = function () {
+
+
+}
+
+DragDropprototype = DragDrop.prototype;
+DragDropprototype = {
+
+    init: function (id, config) {
+
+        if (id) {
+            this.initTarget(id, config);
+        }
+
+        Ext.EventManager.on(this.id, "mousedown", this.handleMouseDown, this);
+
+    },
+
+
+    initTarget: function (id, config) {
+
+        this.config = config || {};
+        this.DDMInstance = Execljs.DragDropManager;
+
+        this.on(id, 'mousedown', this.handleMouseDown);
+
+
+    },
+
+    handleMouseDown: function (e) {
+
+        var me = this;
+
+        me.b4MouseDown(e);
+        me.DDMInstance.handleMouseDown(e, me);
+        me.DDMInstance.stopEvent(e);
+    }
+
+
+}
+
