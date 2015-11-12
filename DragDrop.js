@@ -74,26 +74,28 @@ DragDrop = function () {
 
 }
 
-DragDropprototype = DragDrop.prototype;
-DragDropprototype = {
+DragDrop.prototype = {
 
-    init: function (id, config) {
+    init: function (id, config ) {
+
+        var me =this ;
 
         if (id) {
             this.initTarget(id, config);
         }
 
-        Ext.EventManager.on(this.id, "mousedown", this.handleMouseDown, this);
+        this.on(this.id, "mousedown", me.handleMouseDown, this);
 
     },
 
 
     initTarget: function (id, config) {
 
+        var me = this ;
         this.config = config || {};
         this.DDMInstance = Execljs.DragDropManager;
 
-        this.on(id, 'mousedown', this.handleMouseDown);
+         me.on('mousedown', me.handleMouseDown);
 
 
     },
@@ -101,12 +103,15 @@ DragDropprototype = {
     handleMouseDown: function (e) {
 
         var me = this;
-
+        console.log(me);
         me.b4MouseDown(e);
         me.DDMInstance.handleMouseDown(e, me);
         me.DDMInstance.stopEvent(e);
+    },
+
+    b4MouseDown:function(e){
+      console.log(e)  ;
+
     }
-
-
 }
 

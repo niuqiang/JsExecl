@@ -80,6 +80,7 @@ Execljs.onReady(function () {
 
     });
 
+
     var tpl =   '<div class="inputmenuGroup">' +
                 '   <input type="text" style="font-family: Consolas" class="input buttoninput  fonttype" value="Consolas"/>' +
                 '   <span class="lsf arrow">dropdown</span>' +
@@ -132,6 +133,8 @@ Execljs.onReady(function () {
 
     })
     t.on('click', function (e) {
+        console.log(e);
+
         alert('sds');
 
     });
@@ -139,7 +142,50 @@ Execljs.onReady(function () {
     t.on('clicks', function (e) {
         alert('sclicksclickss');
 
+    }) ;
+
+
+    Class('Scrollbar' , Execljs.Component, [Event.EventManager ,DragDrop], {
+
+        constructor: function (tpl) {
+            this.tpl = tpl;
+            return this;
+        },
+
+        appendTo: function (_el) {
+            this.el = Execljs.DomHelper.append(_el, Execljs.DomHelper.createTemplate(this.tpl), this.values, this.el);
+            this.afterRender();
+        },
+
+        afterRender:function(){
+            var me  =this ;
+            me.dd  = new DragDrop();
+
+            me.dd.init.call(me ,me.el);
+        }
+
+
     })
+
+    var xScrollbar = '<div class="dividingline">'+
+        '</div>'+
+
+        '<div class="scrollbararrow arrowleft">'+
+        '<div class="lsf back ">back</div>'+
+        '</div>'+
+
+        '<div class="hscrollbarContainer">'+
+        '<div class="hscrollbarConrtent"></div>'+
+        '</div>'+
+
+        '<div class="scrollbararrow arrowright">'+
+        '<div class="lsf next ">next</div>'+
+        '</div>';
+
+    var  xScrollbar = new Scrollbar(xScrollbar);
+
+        xScrollbar.appendTo('hscrollbar');
+
 
 
 })

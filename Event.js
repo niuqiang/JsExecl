@@ -302,7 +302,7 @@ Event.EventManager.Event = function (src, props) {
 Event.EventManager.prototype = {
 
     on: function (type, fn) {
-        Event.EventManager.event.add(this.el, type, fn);
+        Event.EventManager.event.add(this, type, fn);
 
     },
 
