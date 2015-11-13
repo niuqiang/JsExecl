@@ -4950,8 +4950,7 @@
         this[jQuery.expando] = true;
     };
 
-// jQuery.Event is based on DOM3 Events as specified by the ECMAScript Language Binding
-// http://www.w3.org/TR/2003/WD-DOM-Level-3-Events-20030331/ecma-script-binding.html
+
     jQuery.Event.prototype = {
         isDefaultPrevented: returnFalse,
         isPropagationStopped: returnFalse,
@@ -4981,8 +4980,7 @@
         }
     };
 
-// Create mouseenter/leave events using mouseover/out and event-time checks
-// Support: Chrome 15+
+
     jQuery.each({
         mouseenter: "mouseover",
         mouseleave: "mouseout"
@@ -5008,6 +5006,8 @@
             }
         };
     });
+
+
 
 // Create "bubbling" focus and blur events
 // Support: Firefox, Chrome, Safari

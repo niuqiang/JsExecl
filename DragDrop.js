@@ -5,7 +5,7 @@
 
 Execljs.DragDropManager = function(){};
 
-DragDropManagerProto =  Execljs.DragDropManager.prototype;
+DragDropManagerProto =  Execljs.DragDropManager;
 
 DragDropManagerProto ={
 
@@ -78,6 +78,8 @@ DragDrop.prototype = {
 
     init: function (id, config ) {
 
+
+
         var me =this ;
 
         if (id) {
@@ -93,9 +95,9 @@ DragDrop.prototype = {
 
         var me = this ;
         this.config = config || {};
-        this.DDMInstance = Execljs.DragDropManager;
+        this.DDMInstance = DragDropManagerProto;
 
-         me.on('mousedown', me.handleMouseDown);
+        me.on('mousedown', me.handleMouseDown);
 
 
     },
@@ -103,7 +105,7 @@ DragDrop.prototype = {
     handleMouseDown: function (e) {
 
         var me = this;
-        console.log(me);
+
         me.b4MouseDown(e);
         me.DDMInstance.handleMouseDown(e, me);
         me.DDMInstance.stopEvent(e);

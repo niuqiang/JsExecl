@@ -139,6 +139,7 @@ Execljs.onReady(function () {
 
     });
 
+
     t.on('clicks', function (e) {
         alert('sclicksclickss');
 
@@ -159,9 +160,8 @@ Execljs.onReady(function () {
 
         afterRender:function(){
             var me  =this ;
-            me.dd  = new DragDrop();
 
-            me.dd.init.call(me ,me.el);
+            me.init.call(me ,me.el);
         }
 
 

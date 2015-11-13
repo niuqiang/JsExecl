@@ -123,7 +123,7 @@ Event.EventManager.event = {
     guid: 1,
     add: function (elem, type, handler) {
 
-        var eventHandle,
+        var eventHandle, handlers, handleObj,
             events,
             elemData = this.data_priv.get(elem);
 
@@ -136,11 +136,12 @@ Event.EventManager.event = {
         }
 
 
-        handleObj =  Execljs.apply({
+        handleObj = Execljs.apply({
             type: type,
             origType: type,
             handler: handler,
-            guid: handler.guid
+            guid: handler.guid,
+            elem: elem
         });
 
         // Init the element's event structure and main handler, if this is the first
@@ -155,8 +156,12 @@ Event.EventManager.event = {
 
             };
 
-            if (elem.addEventListener) {
+            if (!elem.addEventListener) {
+
+                elem.el.addEventListener(type, eventHandle, false);
+            } else {
                 elem.addEventListener(type, eventHandle, false);
+
             }
             eventHandle.elem = elem;
         }
@@ -184,27 +189,28 @@ Event.EventManager.event = {
         args[0] = event;
         event.delegateTarget = this;
 
-        handlerQueue =  handlers ;
+        handlerQueue = handlers;
 
         i = 0;
-        while ((matched = handlerQueue[i++])  ) {
+        while ((matched = handlerQueue[i++])) {
             event.currentTarget = matched.elem;
 
             j = 0;
-                     event.handleObj = matched.handler;
+            event.handleObj = matched.handler;
 
-                    ret =   event.handleObj.apply(matched.elem, args);
+            ret = event.handleObj.apply(matched.elem, args);
 
-                    if (ret !== undefined) {
-                        if ((event.result = ret) === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                    }
+            if (ret !== undefined) {
+                if ((event.result = ret) === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            }
         }
         return event.result;
     },
-    fix:function(event){
+
+    fix: function (event) {
         if (event[Execljs.DataObj.expando]) {
             return event;
         }
@@ -214,7 +220,7 @@ Event.EventManager.event = {
             type = event.type,
             originalEvent = event,
 
-        event = new Event.EventManager.Event(originalEvent);
+            event = new Event.EventManager.Event(originalEvent);
 
         // Support: Cordova 2.5 (WebKit) (#13255)
         // All events should have a target; Cordova deviceready doesn't
@@ -228,17 +234,18 @@ Event.EventManager.event = {
             event.target = event.target.parentNode;
         }
 
-        return  event;
+        return event;
 
     },
-    trigger:function(event, data, elem, onlyHandlers){
+
+    trigger: function (event, data, elem, onlyHandlers) {
 
         var i, cur, tmp, bubbleType, ontype, handle, special,
             eventPath = [elem || document],
             type = {}.hasOwnProperty.call(event, "type") ? event.type : event,
-       //     namespaces = {}.hasOwnProperty.call(event, "namespace") ? event.namespace.split(".") : [];
+        //     namespaces = {}.hasOwnProperty.call(event, "namespace") ? event.namespace.split(".") : [];
 
-        cur = tmp = elem = elem || document;
+            cur = tmp = elem = elem || document;
 
         // Don't do events on text and comment nodes
         if (elem.nodeType === 3 || elem.nodeType === 8) {
@@ -248,7 +255,7 @@ Event.EventManager.event = {
         ontype = type.indexOf(":") < 0 && "on" + type;
 
         // Caller can pass in a jQuery.Event object, Object, or just an event type string
-        event = event[Execljs.DataObj.expando] ?  event :   new  Event.EventManager.Event(event );
+        event = event[Execljs.DataObj.expando] ? event : new Event.EventManager.Event(event);
 
         // Trigger bitmask: & 1 for native handlers; & 2 for jQuery (always true)
         event.isTrigger = onlyHandlers ? 2 : 3;
@@ -259,7 +266,7 @@ Event.EventManager.event = {
         }
 
         i = 0;
-        while ((cur = eventPath[i++]) ) {
+        while ((cur = eventPath[i++])) {
 
 
             handle = ( Event.EventManager.event.data_priv.get(cur, "events") || {} )[event.type] && Event.EventManager.event.data_priv.get(cur, "handle");
@@ -289,7 +296,11 @@ Event.EventManager.Event = function (src, props) {
         // Events bubbling up the document may have been marked as prevented
         // by a handler lower down the tree; reflect the correct value.
         this.isDefaultPrevented = ( src.defaultPrevented ||
-        src.getPreventDefault && src.getPreventDefault() ) ? function(){return false} : function(){return true};
+        src.getPreventDefault && src.getPreventDefault() ) ? function () {
+            return false
+        } : function () {
+            return true
+        };
 
         // Event type
     } else {
@@ -302,12 +313,13 @@ Event.EventManager.Event = function (src, props) {
 Event.EventManager.prototype = {
 
     on: function (type, fn) {
+
         Event.EventManager.event.add(this, type, fn);
 
     },
 
-    trigger:function(type){
-        Event.EventManager.event.trigger( type ,{},this.el );
+    trigger: function (type) {
+        Event.EventManager.event.trigger(type, {}, this);
 
     }
 
