@@ -72,12 +72,12 @@ DragDrop = function () {
 
 DragDrop.prototype = {
 
-    init: function (id, config ) {
+    init: function (el, config ) {
 
         var me =this ;
 
-        if (id) {
-            this.initTarget(id, config);
+        if (el) {
+            this.initTarget(el, config);
         }
 
         this.on(this.id, "mousedown", me.handleMouseDown, this);

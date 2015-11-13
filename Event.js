@@ -336,9 +336,9 @@ Event.EventManager.Event = function (src, props) {
 
 EventEventManager ={
 
-    getRelatedTarget:function(e){
+    getRelatedTarget:function(e,cls){
 
-        return e
+        return e ;
     },
     getPageXY:function(e){
 

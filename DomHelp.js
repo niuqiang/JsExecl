@@ -78,7 +78,7 @@ Execljs.DomHelper.insertHtml = function (where, el, html) {
         range[setStart](el);
         frag = range.createContextualFragment(html);
         el.parentNode.insertBefore(frag, where == 'beforebegin' ? el : el.nextSibling);
-        return el[(where == 'beforebegin' ? 'previous' : 'next') + 'Sibling'];
+        return el ;
     }
     else {
         rangeEl = (where == 'afterbegin' ? 'first' : 'last') + 'Child';
@@ -95,7 +95,7 @@ Execljs.DomHelper.insertHtml = function (where, el, html) {
         else {
             el.innerHTML = html;
         }
-        return el[rangeEl];
+        return el ;
     }
 
     throw 'Illegal insertion point -> "' + where + '"';
