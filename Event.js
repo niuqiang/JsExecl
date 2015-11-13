@@ -6,7 +6,7 @@
  * Registers event handlers that want to receive a normalized EventObject instead of the standard browser event and provides
  * several useful events directly.
  */
-Event.EventManager = new function () {
+Event.EventManager = new  function () {
     var EventManager = this,
         doc = document,
         win = window,
@@ -35,6 +35,20 @@ Event.EventManager = new function () {
         // window.addEventListener( "load", fn, false );
     }
 };
+
+Event.EventManager = {
+    getRelatedTarget:function(e){
+
+        return e ;
+    },
+    getPageXY:function(e){
+
+        return e ;
+    }
+
+}
+
+
 
 
 Execljs.DataObj = {
@@ -222,6 +236,8 @@ Event.EventManager.event = {
 
             event = new Event.EventManager.Event(originalEvent);
 
+
+
         // Support: Cordova 2.5 (WebKit) (#13255)
         // All events should have a target; Cordova deviceready doesn't
         if (!event.target) {
@@ -307,9 +323,49 @@ Event.EventManager.Event = function (src, props) {
         this.type = src;
     }
 
+    this.currentTarget =event.currentTarget;
+
+    this.relatedTarget = EventEventManager.getRelatedTarget(event);
+
+    this.xy = EventEventManager.getPageXY(event);
+
+
     // Mark it as fixed
     this[Execljs.DataObj.expando] = true;
 };
+
+EventEventManager ={
+
+    getRelatedTarget:function(e){
+
+        return e
+    },
+    getPageXY:function(e){
+
+
+        event = event.browserEvent || event;
+        var x = event.pageX,
+            y = event.pageY,
+            docEl = document.documentElement,
+            body = document.body;
+
+        // pageX/pageY not available (undefined, not null), use clientX/clientY instead
+        if (!x && x !== 0) {
+            x = event.clientX + (docEl && docEl.scrollLeft || body && body.scrollLeft || 0) - (docEl && docEl.clientLeft || body && body.clientLeft || 0);
+            y = event.clientY + (docEl && docEl.scrollTop  || body && body.scrollTop  || 0) - (docEl && docEl.clientTop  || body && body.clientTop  || 0);
+        }
+        return [x, y];
+
+
+    }
+
+
+}
+
+
+
+
+
 Event.EventManager.prototype = {
 
     on: function (type, fn) {

@@ -13,10 +13,6 @@ DragDropManagerProto ={
         var me = this,  el;
 
         me.currentTarget = e.getTarget();
-
-        me.dragCurrent = oDD;
-
-        me.currentTarget = e.getTarget();
         me.dragCurrent = oDD;
 
         el = oDD.getEl();
@@ -77,8 +73,6 @@ DragDrop = function () {
 DragDrop.prototype = {
 
     init: function (id, config ) {
-
-
 
         var me =this ;
 
