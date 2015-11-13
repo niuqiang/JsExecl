@@ -156,14 +156,29 @@ Execljs.onReady(function () {
         appendTo: function (_el) {
             this.el = Execljs.DomHelper.append(_el, Execljs.DomHelper.createTemplate(this.tpl), this.values, this.el);
 
-            console.log(this.el);
+
             this.afterRender();
         },
 
         afterRender:function(){
             var me  =this ;
 
-            me.init.call(me ,me);
+            var  ddEl = this.findDD(this.el);
+
+
+            me.init(ddEl ,{});
+        },
+
+        findDD:function(el){
+            var children = el.children,tmp ;
+
+            for(var cl in children){
+
+                tmp =  children[cl] ;
+                if(!tmp.className.indexOf('hscrollbarContainer')){
+                    return tmp.firstChild;
+                }
+            }
         }
 
 
@@ -177,7 +192,7 @@ Execljs.onReady(function () {
         '</div>'+
 
         '<div class="hscrollbarContainer">'+
-        '<div class="hscrollbarConrtent"></div>'+
+        '<div class="hscrollbarConrtent ddElement"></div>'+
         '</div>'+
 
         '<div class="scrollbararrow arrowright">'+

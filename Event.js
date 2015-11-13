@@ -170,15 +170,15 @@ Event.EventManager.event = {
 
             };
 
-            if (!elem.addEventListener) {
-
-                elem.el.addEventListener(type, eventHandle, false);
-            } else {
-                elem.addEventListener(type, eventHandle, false);
-
-            }
-            eventHandle.elem = elem;
         }
+        if (!elem.addEventListener) {
+
+            elem.el.addEventListener(type, eventHandle, false);
+        } else {
+            elem.addEventListener(type, eventHandle, false);
+
+        }
+        eventHandle.elem = elem;
 
         // Add elem as a property of the handle fn to prevent a memory leak with IE non-native events
         if (!(handlers = events[type])) {
@@ -338,7 +338,7 @@ EventEventManager ={
 
     getRelatedTarget:function(e,cls){
 
-        return e ;
+        return e.target ;
     },
     getPageXY:function(e){
 

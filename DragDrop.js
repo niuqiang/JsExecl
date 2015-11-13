@@ -9,47 +9,41 @@ DragDropManagerProto =  Execljs.DragDropManager;
 
 DragDropManagerProto ={
 
-    handleMouseDown :function(e){
-        var me = this,  el;
+    handleMouseDown :function(e ,me_){
+        var me = me_   ;
 
-        me.currentTarget = e.getTarget();
-        me.dragCurrent = oDD;
+        me.currentTarget = e.relatedTarget;
 
-        el = oDD.getEl();
+        me.startX  =   e.xy[0];
+        me.startY = e.xy[1];
 
-        me.startX = e.getPageX();
-        me.startY = e.getPageY();
+        me.ddTarget = me.currentTarget;
 
-        me.deltaX = me.startX - el.offsetLeft;
-        me.deltaY = me.startY - el.offsetTop;
+        me.deltaX = me.startX -   me.currentTarget.offsetLeft;
+        me.deltaY = me.startY -   me.currentTarget.offsetTop;
 
-        me.dragThreshMet = false;
-
-        me.clickTimeout = setTimeout(
-            function() {
-                me.startDrag(me.startX, me.startY);
-            },
-           30
-        );
     },
 
-    startDrag: function(x, y) {
-        var me = this,
-            current = me.dragCurrent,
-            dragEl;
+    handleMouseMove:function(e  ,me_){
 
-        clearTimeout(me.clickTimeout);
-        if (current) {
+        var me = me_,
+            current =me.ddTarget,
+            diffX,
+            diffY;
 
-            current.startDrag(x, y);
-            dragEl = current.getDragEl();
-
-            // Add current drag class to dragged element
-            if (dragEl) {
-             //   Ext.fly(dragEl).addCls(me.dragCls);
-            }
+        if (!current) {
+            return true;
         }
-        me.dragThreshMet = true;
+
+
+            diffX = Math.abs(me.startX - e.xy[0]);
+            diffY = Math.abs(me.startY - e.xy[1]);
+
+
+            e.relatedTarget.style.left = diffX +"px";
+
+
+
     },
 
     stopEvent: function(e) {
@@ -66,24 +60,22 @@ DragDropManagerProto ={
 }
 
 DragDrop = function () {
-
-
 }
 
 DragDrop.prototype = {
-
+    startX:0,
+    startY:0,
+    deltaX:0,
+    deltaY:0,
     init: function (el, config ) {
 
         var me =this ;
 
         if (el) {
-            this.initTarget(el, config);
+            me.initTarget(el, config);
         }
 
-        this.on(this.id, "mousedown", me.handleMouseDown, this);
-
     },
-
 
     initTarget: function (id, config) {
 
@@ -91,9 +83,22 @@ DragDrop.prototype = {
         this.config = config || {};
         this.DDMInstance = DragDropManagerProto;
 
+        me.on('mousemove', me.handleMouseMove);
+
         me.on('mousedown', me.handleMouseDown);
 
+        me.on('mouseup', me.handleMouseUp);
 
+    },
+    handleMouseMove:function(e){
+
+        this.DDMInstance.handleMouseMove(e , this);
+
+    },
+
+    handleMouseUp:function(e){
+
+        this.ddTarget = null;
     },
 
     handleMouseDown: function (e) {
@@ -101,12 +106,15 @@ DragDrop.prototype = {
         var me = this;
 
         me.b4MouseDown(e);
+
         me.DDMInstance.handleMouseDown(e, me);
-        me.DDMInstance.stopEvent(e);
+
+
     },
 
     b4MouseDown:function(e){
-      console.log(e)  ;
+
+
 
     }
 }
