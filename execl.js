@@ -129,14 +129,10 @@ Execljs.onReady(function () {
     t4.appendTo('toolbar');
 
     t2.on('mouseover' ,function(){
-        console.log(121);
 
     })
     t.on('click', function (e) {
         console.log(e);
-
-        alert('sds');
-
     });
 
 
@@ -158,6 +154,8 @@ Execljs.onReady(function () {
 
 
             this.afterRender();
+
+            return this;
         },
 
         afterRender:function(){
@@ -165,8 +163,8 @@ Execljs.onReady(function () {
 
             var  ddEl = this.findDD(this.el);
 
-
-            me.init(ddEl ,{});
+            me.init(ddEl );
+            me.constrainTo( );
         },
 
         findDD:function(el){
@@ -201,7 +199,7 @@ Execljs.onReady(function () {
 
     var  xScrollbar = new Scrollbar(xScrollbar);
 
-        xScrollbar.appendTo('hscrollbar');
+        xScrollbar.appendTo('hscrollbar').constrainTo();
 
 
 

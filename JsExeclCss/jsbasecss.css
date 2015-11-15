@@ -34,6 +34,15 @@
     box-sizing: border-box;
 }
 
+.unselectable {
+    user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+    cursor: default;
+}
+
 .excel {
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -450,8 +459,12 @@
 .hscrollbar {
     width: 360px;
     position: absolute;
-    right: 0;
+    right: 30px;
     top: 0;
+    padding:0 1px;
+    background-color: RGB(247, 247, 247);
+    margin-right: -30px;
+    margin-left: -16px;
 
 }
 
@@ -466,21 +479,22 @@
 }
 
 .hscrollbarContainer {
-    float: left;
     top: 3px;
     position: relative;
+    margin: 0px 29px 0 23px;
+    height: 14px;
+    background-color: RGB(241, 241, 241);
 }
 
 .hscrollbarConrtent {
     width: 120px;
-    height: 14px;
+    height: 12px;
     position: absolute;
-    left: 20px;
     background-color: #BCBCBC;
+    border: 1px solid  rgb(170, 170, 170) ;
 }
 
 .vscrollbarContainer {
-
     height: 100px;
     position: absolute;
     left: 0px;
@@ -493,7 +507,7 @@
     color: green;
     position: relative;
     line-height: 12px;
-    padding: 2px 2px 0px;
+    padding: 1px 2px 0px;
 
 }
 
@@ -506,11 +520,17 @@
 
 .arrowleft {
     float: left;
+    top: 2px;
+    right: 0px;
+    padding: 1px 2px 0px;
 }
 
 .arrowright {
-    float: right;
+    position: absolute;
     margin-right: 14px;
+    top: 2px;
+    right: 0px;
+    padding: 1px 2px 0px;
 
 }
 
