@@ -25,6 +25,7 @@ function Class(name, extend, mixins, config) {
         function constructor() {
             return this.constructor.apply(this, arguments) || null;
         }
+
         return constructor;
     };
 
@@ -81,10 +82,10 @@ Execljs.onReady(function () {
     });
 
 
-    var tpl =   '<div class="inputmenuGroup">' +
-                '   <input type="text" style="font-family: Consolas" class="input buttoninput  fonttype" value="Consolas"/>' +
-                '   <span class="lsf arrow">dropdown</span>' +
-                '</div>';
+    var tpl = '<div class="inputmenuGroup">' +
+        '   <input type="text" style="font-family: Consolas" class="input buttoninput  fonttype" value="Consolas"/>' +
+        '   <span class="lsf arrow">dropdown</span>' +
+        '</div>';
 
 
     var t = new Button(tpl);
@@ -106,8 +107,8 @@ Execljs.onReady(function () {
         '<button type="button" class="btn btn-default">' +
         '<span class="lsf">underline</span>' +
         '</button>' +
-       ' </div>'
-            );
+        ' </div>'
+    );
 
     var t4 = new Button(
         '<div class="menuGroup">' +
@@ -128,7 +129,7 @@ Execljs.onReady(function () {
     t3.appendTo('toolbar');
     t4.appendTo('toolbar');
 
-    t2.on('mouseover' ,function(){
+    t2.on('mouseover', function () {
 
     })
     t.on('click', function (e) {
@@ -139,68 +140,108 @@ Execljs.onReady(function () {
     t.on('clicks', function (e) {
         alert('sclicksclickss');
 
-    }) ;
+    });
 
 
-    Class('Scrollbar' , Execljs.Component, [Event.EventManager ,DragDrop], {
+    Class('Scrollbar', Execljs.Component, [Event.EventManager, DragDrop], {
 
-        constructor: function (tpl) {
-            this.tpl = tpl;
-            return this;
-        },
+            constructor: function (tpl) {
+                this.tpl = tpl;
+                return this;
+            },
 
-        appendTo: function (_el) {
-            this.el = Execljs.DomHelper.append(_el, Execljs.DomHelper.createTemplate(this.tpl), this.values, this.el);
+            appendTo: function (_el) {
+                this.el = Execljs.DomHelper.append(_el, Execljs.DomHelper.createTemplate(this.tpl), this.values, this.el);
 
 
-            this.afterRender();
+                this.afterRender();
 
-            return this;
-        },
+                return this;
+            },
 
-        afterRender:function(){
-            var me  =this ;
+            afterRender: function () {
+                var me = this;
 
-            var  ddEl = this.findDD(this.el);
+                var ddEl = this.findDD(this.el);
 
-            me.init(ddEl );
-            me.constrainTo( );
-        },
+                me.init(ddEl);
 
-        findDD:function(el){
-            var children = el.children,tmp ;
+                me.initScrollRow();
 
-            for(var cl in children){
+                me.constrainTo();
+            },
 
-                tmp =  children[cl] ;
-                if(!tmp.className.indexOf('hscrollbarContainer')){
-                    return tmp.firstChild;
-                }
+            findDD: function (el) {
+                //var children = el.children, tmp;
+                //
+                //for (var cl in children) {
+                //
+                //    tmp = children[cl];
+                //    if (!tmp.className.indexOf('hscrollbarContainer')) {
+                //        return tmp.firstChild;
+                //    }
+                //}
+
+                return Element.getElByCls(el,'hscrollbarContainer');
+            },
+
+            initScrollRow: function () {
+
+                this.getLeftArrow().on('click' , function () {
+
+                });
+
+                this.getRightArrow().on('click' , function () {
+
+                });
+
+                //this.geNavigationbar().on('click' , function () {
+                //
+                //});
+
+
+            },
+
+            getLeftArrow:function(){
+
+                return Element.getElByCls( this.el ,'arrowleft');
+
+
+            },
+
+            getRightArrow:function(){
+
+                return Element.getElByCls( this.el ,'arrowright');
+            },
+
+            geNavigationbar:function(){},
+
+            moveScrollbar: function () {
+
+
+
             }
         }
+    )
 
+    var xScrollbar = '<div class="dividingline">' +
+        '</div>' +
 
-    })
+        '<div class="scrollbararrow arrowleft">' +
+        '<div class="lsf back ">back</div>' +
+        '</div>' +
 
-    var xScrollbar = '<div class="dividingline">'+
-        '</div>'+
+        '<div class="hscrollbarContainer">' +
+        '<div class="hscrollbarConrtent ddElement"></div>' +
+        '</div>' +
 
-        '<div class="scrollbararrow arrowleft">'+
-        '<div class="lsf back ">back</div>'+
-        '</div>'+
-
-        '<div class="hscrollbarContainer">'+
-        '<div class="hscrollbarConrtent ddElement"></div>'+
-        '</div>'+
-
-        '<div class="scrollbararrow arrowright">'+
-        '<div class="lsf next ">next</div>'+
+        '<div class="scrollbararrow arrowright">' +
+        '<div class="lsf next ">next</div>' +
         '</div>';
 
-    var  xScrollbar = new Scrollbar(xScrollbar);
+    var xScrollbar = new Scrollbar(xScrollbar);
 
-        xScrollbar.appendTo('hscrollbar').constrainTo();
-
+    xScrollbar.appendTo('hscrollbar').constrainTo();
 
 
 })
