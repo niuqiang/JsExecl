@@ -57,20 +57,20 @@ DragDrop.prototype = {
 
     constrainTo: function (constrainTo) {
 
-        var c, ddEl = this.findDD(this.el), constrainPal, topSpace, leftSpace;
+        var c, ddEl = this.findDD(this.el ,'ddElement'), constrainPal, topSpace, leftSpace;
 
         /**defaule ddEl parentNode **/
         if (constrainTo == null) {
-            constrainPal = ddEl.parentNode;
+            constrainPal = ddEl.findParent();
 
-            c = {width: constrainPal.clientWidth, height: constrainPal.clientHeight};
+            c = {width: constrainPal.dom.clientWidth, height: constrainPal.dom.clientHeight};
         }
 
-        topSpace = ddEl.offsetTop;
-        leftSpace = ddEl.offsetLeft;
+        topSpace = ddEl.dom.offsetTop;
+        leftSpace = ddEl.dom.offsetLeft;
 
-        this.setXConstraint(leftSpace, c.width - leftSpace - ddEl.clientWidth);
-        this.setYConstraint(topSpace, c.height - topSpace - ddEl.clientHeight);
+        this.setXConstraint(leftSpace, c.width - leftSpace - ddEl.dom.clientWidth);
+        this.setYConstraint(topSpace, c.height - topSpace -  ddEl.dom.clientHeight);
 
     },
     setXConstraint: function (iLeft, iRight, iTickSize) {
@@ -112,6 +112,7 @@ DragDrop.prototype = {
         var me = this;
 
         me.b4MouseDown(e);
+        me.DDMInstance.stopEvent(e);
     },
 
     bind: function (fn, scope) {
@@ -128,10 +129,12 @@ DragDrop.prototype = {
 
         if (current) {
 
-            me.dragEl = me.findDD(current);
+            me.dragEl = me.findDD( me.el,'ddElement');
 
             // Add current drag class to dragged element
-            me.dragEl.style.backgroundColor = 'rgb(119, 116, 116)';
+
+            me.dragEl.setStyle('backgroundColor' , 'rgb(119, 116, 116)');
+
         }
         me.dragThreshMet = true;
     },
@@ -144,8 +147,8 @@ DragDrop.prototype = {
 
             oCoord = this.getTargetCoord(e.xy[0], e.xy[1]);
 
-            dragel.style.left = oCoord.x + 'px';
-            // dragel.style.top = oCoord.y + 'px';
+            dragel.setStyle('left' , oCoord.x + 'px');
+         //   dragel.dom.style.left = oCoord.x + '50px';
 
         }
 
@@ -249,10 +252,12 @@ DragDrop.prototype = {
 
     handleMouseUp: function (e) {
 
-        (this.dragEl && this.dragEl.style || {}).backgroundColor = 'rgb(188, 188, 188)';
+        this.dragEl && this.dragEl.setStyle('backgroundColor' ,'rgb(188, 188, 188)');
         this.dragEl = null;
         this.deltaX = null;
         this.deltaY = null;
+
+
 
     },
 

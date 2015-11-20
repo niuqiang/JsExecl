@@ -14,13 +14,26 @@ Element = function (element) {
     me.el = me;
     me.dom = dom;
 
-    return  me;
+    return me;
 }
 
 Element.prototype = {
+
     constructor: Element,
 
+    on: function (type, fn) {
+
+        Event.EventManager.event.add(this.dom, type, fn);
+
+    },
+
     getWidth: function () {
+        var me = this,
+            dom = me.dom;
+
+        return dom.clientWidth ;
+
+
     },
 
     getHeight: function () {
@@ -41,33 +54,77 @@ Element.prototype = {
 
     },
 
-    getXY:function(){
+    getXY: function () {
 
 
     },
 
-    setXY:function(){
+    setXY: function () {
 
+    },
+
+    setStyle: function (prop, value) {
+
+        var me = this,
+            dom = me.dom;
+
+        me.dom.style[prop] = value;
+
+        return me;
+
+    },
+
+    getStyle: function (prop, value) {
+
+        var me = this,
+            dom = me.dom;
+
+        return  me.dom.style[prop].replace('px','')  ;
+
+
+
+    },
+
+
+    findParent: function (simpleSelector, limit, returnEl) {
+
+        var target = this.dom;
+        target = target.parentNode;
+        return new Element(target);
     }
 
 }
 
 Element.get = function (id) {
 
-   //return document.getElementBy
+    //return document.getElementBy
 }
 
 
-Element.getElByCls = function(el , cls){
+Element.getElByCls = function (el, cls ,out ) {
 
-    var children = el.children, tmp;
+    var children = el.children, tmp,cl,element;
 
-    for (var cl in children) {
 
-        tmp = children[cl];
-        if (!tmp.className.indexOf(cls)) {
-            return tmp.firstChild;
+    if (children && children.length > 0) {
+
+        for ( cl in children) {
+
+            tmp = children[cl];
+
+            if (tmp.className && tmp.className.indexOf(cls) > -1) {
+
+
+                out.push(new Element(tmp));
+
+            } else {
+
+                Element.getElByCls(tmp, cls ,out);
+            }
+
         }
+
     }
+
 
 }

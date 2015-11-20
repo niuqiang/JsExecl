@@ -162,7 +162,7 @@ Execljs.onReady(function () {
             afterRender: function () {
                 var me = this;
 
-                var ddEl = this.findDD(this.el);
+                var ddEl = this.findDD(this.el, 'hscrollbarContainer');
 
                 me.init(ddEl);
 
@@ -171,53 +171,88 @@ Execljs.onReady(function () {
                 me.constrainTo();
             },
 
-            findDD: function (el) {
-                //var children = el.children, tmp;
-                //
-                //for (var cl in children) {
-                //
-                //    tmp = children[cl];
-                //    if (!tmp.className.indexOf('hscrollbarContainer')) {
-                //        return tmp.firstChild;
-                //    }
-                //}
-
-                return Element.getElByCls(el,'hscrollbarContainer');
+            findDD: function (el, cls) {
+                var out = [];
+                Element.getElByCls(el, cls, out);
+                return out[0];
             },
 
             initScrollRow: function () {
+                var me = this;
 
-                this.getLeftArrow().on('click' , function () {
+                me.getLeftArrow().on('mousedown', function (e) {
+                    me.moveScrollbar('left', 20);
+                    me.intervalProcess = setInterval(function () {
+                        me.moveScrollbar('left', 2);
+                    }, 50);
+                });
+
+                me.getLeftArrow().on('mouseup', function (e) {
+
+                    clearInterval(me.intervalProcess);
 
                 });
 
-                this.getRightArrow().on('click' , function () {
+                me.getRightArrow().on('mousedown', function () {
+
+                    me.moveScrollbar('right', 20);
+                    me.intervalProcess_ = setInterval(function () {
+                        me.moveScrollbar('right', 2);
+                    }, 50);
 
                 });
 
-                //this.geNavigationbar().on('click' , function () {
-                //
-                //});
+                me.getRightArrow().on('mouseup', function () {
+                    clearInterval(me.intervalProcess_);
+                });
+
+
+                me.geNavigationbar().on('mouseup', function () {
+
+                });
 
 
             },
 
-            getLeftArrow:function(){
-
-                return Element.getElByCls( this.el ,'arrowleft');
-
+            getLeftArrow: function () {
+                var out = [];
+                Element.getElByCls(this.el, 'arrowleft', out);
+                return out[0];
 
             },
 
-            getRightArrow:function(){
-
-                return Element.getElByCls( this.el ,'arrowright');
+            getRightArrow: function () {
+                var out = [];
+                Element.getElByCls(this.el, 'arrowright', out);
+                return out[0];
             },
 
-            geNavigationbar:function(){},
+            geNavigationbar: function () {
+                var out = [];
+                Element.getElByCls(this.el, 'hscrollbarContainer', out);
 
-            moveScrollbar: function () {
+                return out[0];
+            },
 
+            moveScrollbar: function (dir, pix) {
+                var out = [], scrollbar, dir, lenght, maxlenght;
+                Element.getElByCls(this.el, 'ddElement', out);
+
+                scrollbar = out [0];
+
+                if (dir === 'left') {
+
+                    lenght = scrollbar.getStyle('left') - pix;
+
+                    scrollbar.setStyle('left', (lenght < 0 ? 0 : lenght ) + 'px');
+
+                } else {
+
+                    lenght = scrollbar.getStyle('left') - 0 + pix;
+                    maxlenght = scrollbar.findParent().getWidth() - scrollbar.getWidth() - 3;
+
+                    scrollbar.setStyle('left', (lenght > maxlenght ? maxlenght : lenght ) + 'px');
+                }
 
 
             }
