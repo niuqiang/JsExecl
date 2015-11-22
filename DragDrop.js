@@ -21,13 +21,14 @@ Execljs.DragDropManager = {
     },
 
     stopEvent: function (e) {
-        if (this.stopPropagation) {
-            e.stopPropagation();
-        }
 
-        if (this.preventDefault) {
-            e.preventDefault();
+
+        e.originalEvent.stopPropagation();
+        if (e.originalEvent.preventDefault !== false) {
+            e.originalEvent.preventDefault();
         }
+        ;
+
     }
 
 
@@ -47,7 +48,7 @@ DragDrop.prototype = {
     constrainX: false,
     constrainX: false,
 
-    init: function (config) {
+    init: function () {
 
         var me = this;
 
@@ -57,7 +58,7 @@ DragDrop.prototype = {
 
     constrainTo: function (constrainTo) {
 
-        var c, ddEl = this.findDD(this.el ,'ddElement'), constrainPal, topSpace, leftSpace;
+        var c, ddEl = this.findDD(this.el, 'ddElement'), constrainPal, topSpace, leftSpace;
 
         /**defaule ddEl parentNode **/
         if (constrainTo == null) {
@@ -70,7 +71,7 @@ DragDrop.prototype = {
         leftSpace = ddEl.dom.offsetLeft;
 
         this.setXConstraint(leftSpace, c.width - leftSpace - ddEl.dom.clientWidth);
-        this.setYConstraint(topSpace, c.height - topSpace -  ddEl.dom.clientHeight);
+        this.setYConstraint(topSpace, c.height - topSpace - ddEl.dom.clientHeight);
 
     },
     setXConstraint: function (iLeft, iRight, iTickSize) {
@@ -93,50 +94,24 @@ DragDrop.prototype = {
 
     handleMouseDown: function (e) {
 
+
         var me = this;
-
+        me.DDMInstance = Execljs.DragDropManager;
         if (e.relatedTarget.className.indexOf('ddElement') < 0) {
-
+            me.DDMInstance.stopEvent(e);
             return;
 
         }
 
-        me.DDMInstance = Execljs.DragDropManager;
-
         me.DDMInstance.handleMouseDown(e, me);
 
-        Event.EventManager.event.add(document, 'mousemove', me.bind(me.handleMouseMove, me));
+        Event.EventManager.event.add(document, 'mousemove', Execljs.Function.bind(me.handleMouseMove, me));
 
-        Event.EventManager.event.add(document, 'mouseup', me.bind(me.handleMouseUp, me));
+        Event.EventManager.event.add(document, 'mouseup', Execljs.Function.bind(me.handleMouseUp, me));
 
         var me = this;
-
         me.b4MouseDown(e);
-        me.DDMInstance.stopEvent(e);
-    },
 
-    bind: function (fn, scope) {
-        return function () {
-            return fn.apply(scope, arguments);
-        };
-
-    },
-
-    startDrag: function (x, y) {
-        var me = this,
-            current = me.el;
-
-
-        if (current) {
-
-            me.dragEl = me.findDD( me.el,'ddElement');
-
-            // Add current drag class to dragged element
-
-            me.dragEl.setStyle('backgroundColor' , 'rgb(119, 116, 116)');
-
-        }
-        me.dragThreshMet = true;
     },
 
     handleMouseMove: function (e) {
@@ -147,12 +122,9 @@ DragDrop.prototype = {
 
             oCoord = this.getTargetCoord(e.xy[0], e.xy[1]);
 
-            dragel.setStyle('left' , oCoord.x + 'px');
-         //   dragel.dom.style.left = oCoord.x + '50px';
+            dragel.setStyle('left', oCoord.x + 'px');
 
         }
-
-
     },
 
     getTargetCoord: function (iPageX, iPageY) {
@@ -252,11 +224,10 @@ DragDrop.prototype = {
 
     handleMouseUp: function (e) {
 
-        this.dragEl && this.dragEl.setStyle('backgroundColor' ,'rgb(188, 188, 188)');
+        this.dragEl && this.dragEl.setStyle('backgroundColor', 'rgb(188, 188, 188)');
         this.dragEl = null;
         this.deltaX = null;
         this.deltaY = null;
-
 
 
     },
@@ -265,4 +236,127 @@ DragDrop.prototype = {
 
     }
 }
+
+
+DragTracker = function (config) {
+
+    var me = this, el;
+
+    if (config.el) {
+
+        el = Element.get(config.el);
+
+        el.on('mousedown', DT.onMouseDown)
+    }
+    ;
+
+}
+
+DT = DragTracker.Template = {
+
+    onMouseDown: function (e, target) {
+
+        var me = this;
+
+
+        console.log(this);
+        me.dragTarget = '';
+        me.startXY = me.lastXY = e.xy;
+
+        me.mouseIsDown = true;
+
+        // Flag for downstream DragTracker instances that the mouse is being tracked.
+        e.dragTracked = true;
+
+
+        Event.EventManager.event.add(document, 'mouseup', DT.onMouseUp);
+
+        Event.EventManager.event.add(document, 'mousemove', DT.onMouseMove);
+
+        Event.EventManager.event.add(document, 'selectstart', DT.stopSelect);
+
+
+    },
+
+    onMouseMove: function (e, target) {
+        var me = this,
+            xy = e.xy,
+            s = me.startXY;
+
+        e.preventDefault();
+
+        me.lastXY = xy;
+        if (!me.active) {
+            if (Math.max(Math.abs(s[0] - xy[0]), Math.abs(s[1] - xy[1])) > me.tolerance) {
+                me.triggerStart(e);
+            } else {
+                return;
+            }
+        }
+        // 自定义的 onDrag
+        me.onDrag(e);
+
+    },
+
+    onMouseUp: function (e) {
+        var me = this;
+        // Clear the flag which ensures onMouseOut fires only after the mouse button
+        // is lifted if the mouseout happens *during* a drag.
+        me.mouseIsDown = false;
+
+        // If we mouseouted the el *during* the drag, the onMouseOut method will not have fired. Ensure that it gets processed.
+        if (me.mouseIsOut) {
+            me.mouseIsOut = false;
+            me.onMouseOut(e);
+        }
+        e.preventDefault();
+
+        // See Ext.dd.DragDropManager::handleMouseDown
+        if (Ext.isIE && document.releaseCapture) {
+            document.releaseCapture();
+        }
+
+        me.fireEvent('mouseup', me, e);
+
+        me.endDrag(e);
+    },
+
+    endDrag: function (e) {
+        var me = this,
+            wasActive = me.active;
+
+        me.clearStart();
+        me.active = false;
+        if (wasActive) {
+            me.onEnd(e);
+            me.fireEvent('dragend', me, e);
+        }
+        // Private property calculated when first required and only cached during a drag
+        // Remove flag from event singleton.  Using "Ext.EventObject" here since "endDrag" is called directly in some cases without an "e" param
+        me._constrainRegion = Ext.EventObject.dragTracked = null
+    },
+
+    stopSelect: function () {
+        return false;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

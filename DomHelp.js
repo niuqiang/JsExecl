@@ -52,9 +52,15 @@ Execljs.DomHelper.createTemplate = function (source) {
 
 Execljs.DomHelper.doInsert = function (where, el, tpl, values) {
 
-    var newNode = Execljs.DomHelper.insertHtml(where, document.getElementById(el), tpl, values);
-    returnElement = newNode;
-    return returnElement;
+    var dom;
+    if (typeof el == 'string') {
+        dom = document.getElementById(el)
+    } else {
+        dom = el;
+    }
+
+    return Execljs.DomHelper.insertHtml(where, dom, tpl, values);
+
 
 }
 
@@ -78,7 +84,7 @@ Execljs.DomHelper.insertHtml = function (where, el, html) {
         range[setStart](el);
         frag = range.createContextualFragment(html);
         el.parentNode.insertBefore(frag, where == 'beforebegin' ? el : el.nextSibling);
-        return el ;
+        return el;
     }
     else {
         rangeEl = (where == 'afterbegin' ? 'first' : 'last') + 'Child';
@@ -95,7 +101,7 @@ Execljs.DomHelper.insertHtml = function (where, el, html) {
         else {
             el.innerHTML = html;
         }
-        return el ;
+        return el;
     }
 
     throw 'Illegal insertion point -> "' + where + '"';

@@ -97,7 +97,7 @@ Element.prototype = {
 
 Element.get = function (id) {
 
-    //return document.getElementBy
+     return  new Element(id);
 }
 
 

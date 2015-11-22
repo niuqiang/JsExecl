@@ -54,6 +54,7 @@
     -webkit-box-sizing: border-box;
     position: relative;
 
+
 }
 
 .btn {
@@ -247,17 +248,32 @@
 .contenttab {
     width: 100%;
 }
+.contenttab .listContent table tr {
 
+    line-height: 0px;
+}
 .contenttab table {
     border: none;
     padding: 0px;
     border-spacing: 0px;
 
 }
+.contenttab table td:first-child{
+
+    border: 1px solid #d3d3d3;
+    border-left: 0px;
+     margin: 0px;
+    padding: 4px 1px;
+    width: 52px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: Consolas;
+    overflow: hidden;
+}
 
 .contenttab table td {
     border: 1px solid #d3d3d3;
-    background-color: #E6EDF7;
+
     border-left: none;
     margin: 0px;
     padding: 4px 1px;
@@ -268,23 +284,62 @@
     overflow: hidden;
 
 }
+.list{
+    display: inline-block;
+}
 
+.list .listContent{
+    padding:  0px 0px;
+    background-color: #FFFFFF;
+    border : none;
+    display: inline-block;
+    width: 100%;
+    border-top: 1px solid #d3d3d3;
+    border-right: none;
+}
+.list .listContent a {
+     text-decoration: none;
+     color:black;
+     cursor:default;
+     display: inline-block;
+     padding: 0px 2px;
+     width: 100%;
+
+     line-height: 14px;
+
+ }
+
+.list .listContent a:hover {
+    text-decoration: none;
+    color:#3F7346;
+    cursor:default;
+    padding: 0px 2px;
+    display: inline-block;
+    background-color: #9FD5B7;
+}
+.list .contentXY{
+    line-height: 14px;
+    border-right: none;
+    padding:  4px  ;
+
+}
 .list table tbody tr td:first-child {
     border: 1px solid #d3d3d3;
     border-left: none;
     border-top: none;
-    width: 24px;
-    background-color: #E6EDF7;
+    width: 22px;
+
     margin: 0px;
-    padding: 0px 4px;
+    padding: 0px 0px;
     font-size: 12px;
     font-weight: 600;
+    color: #3c3c3c;
 }
 
 .list table tbody tr td div {
     text-align: center;
     position: relative;
-    padding: 4px;
+    padding: 2px 2px 2px 0px;
 
 }
 
@@ -301,6 +356,10 @@
 
 .head {
     width: 9999px;
+    position: absolute;
+    top: 0px;
+    z-index: 3;
+    display: inline-block;
 
 }
 
@@ -310,16 +369,6 @@
     overflow: hidden;
 }
 
-.contenttab .triTop {
-
-    padding: 4px 2px;
-    font-size: 12px;
-    display: block;
-    width: 20px;
-    line-height: 12px;
-    text-align: center;
-
-}
 
 .contenttab table td > div.headcontent {
 
@@ -334,17 +383,6 @@
     right: -1px;
     top: -3px;
 
-}
-
-.contenttab table td:first-child {
-    border: 1px solid rgb(211, 211, 211);
-    border-left: none;
-    width: 24px;
-    background-color: rgb(230, 237, 247);
-    margin: 0px;
-    padding: 4px 4px;
-    font-size: 12px;
-    font-weight: 600;
 }
 
 .contenttab .head table tbody div {

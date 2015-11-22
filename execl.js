@@ -62,6 +62,16 @@ function Class(name, extend, mixins, config) {
     window[name] = tmp;
 }
 
+
+Execljs.Function = {
+    bind: function (fn, scope) {
+        return function () {
+            return fn.apply(scope, arguments);
+        };
+    }
+
+}
+
 Execljs.Component = {};
 
 
@@ -164,11 +174,27 @@ Execljs.onReady(function () {
 
                 var ddEl = this.findDD(this.el, 'hscrollbarContainer');
 
-                me.init(ddEl);
+                me.init();
 
                 me.initScrollRow();
 
                 me.constrainTo();
+            },
+
+            startDrag: function (x, y) {
+                var me = this,
+                    current = me.el;
+
+                if (current) {
+
+                    me.dragEl = me.findDD(me.el, 'ddElement');
+
+                    // Add current drag class to dragged element
+
+                    me.dragEl.setStyle('backgroundColor', 'rgb(119, 116, 116)');
+
+                }
+                me.dragThreshMet = true;
             },
 
             findDD: function (el, cls) {
@@ -206,11 +232,18 @@ Execljs.onReady(function () {
                     clearInterval(me.intervalProcess_);
                 });
 
+                me.geNavigationbar().on('mousedown', function (e) {
 
-                me.geNavigationbar().on('mouseup', function () {
+                    var out = [];
+                    Element.getElByCls(me, 'ddElement', out);
+                    if (out[0] != undefined) {
+
+                        var mouseX = e.currentTarget.offsetLeft, ddElX = out[0].getStyle('left'),
+                            ddElxWidth = out[0].getStyle('width');
+                    }
+
 
                 });
-
 
             },
 
@@ -237,20 +270,13 @@ Execljs.onReady(function () {
             moveScrollbar: function (dir, pix) {
                 var out = [], scrollbar, dir, lenght, maxlenght;
                 Element.getElByCls(this.el, 'ddElement', out);
-
                 scrollbar = out [0];
-
                 if (dir === 'left') {
-
                     lenght = scrollbar.getStyle('left') - pix;
-
                     scrollbar.setStyle('left', (lenght < 0 ? 0 : lenght ) + 'px');
-
                 } else {
-
                     lenght = scrollbar.getStyle('left') - 0 + pix;
                     maxlenght = scrollbar.findParent().getWidth() - scrollbar.getWidth() - 3;
-
                     scrollbar.setStyle('left', (lenght > maxlenght ? maxlenght : lenght ) + 'px');
                 }
 
@@ -258,25 +284,98 @@ Execljs.onReady(function () {
             }
         }
     )
+    var xScrollbar = new Scrollbar(JsExeclHtml.xScrollbar);
 
-    var xScrollbar = '<div class="dividingline">' +
-        '</div>' +
+    xScrollbar.appendTo('hscrollbar');
 
-        '<div class="scrollbararrow arrowleft">' +
-        '<div class="lsf back ">back</div>' +
-        '</div>' +
 
-        '<div class="hscrollbarContainer">' +
-        '<div class="hscrollbarConrtent ddElement"></div>' +
-        '</div>' +
+    /**
+     * list 表单内容
+     */
 
-        '<div class="scrollbararrow arrowright">' +
-        '<div class="lsf next ">next</div>' +
-        '</div>';
+    Class('List', Execljs.Component, [Event.EventManager, DragDrop], {
 
-    var xScrollbar = new Scrollbar(xScrollbar);
+        /**
+         * 初始化提交两个
+         * @param tpl
+         * @returns {constructor}
+         */
+        constructor: function (listBody, listTr) {
 
-    xScrollbar.appendTo('hscrollbar').constrainTo();
+            /**初始化100行 **/
+            var row = 100, i = 1, list_trs = '';
+
+            for (; i <= row; i++) {
+
+                list_trs += listTr.replace('$', i);
+            }
+
+
+            this.tpl = listBody.replace('$', list_trs);
+            return this;
+        },
+
+        appendTo: function (_el) {
+
+            var out = [];
+
+            Element.getElByCls((new Element('execl')).dom, _el, out);
+
+            this.el = Execljs.DomHelper.insertFirst(out[0].dom, Execljs.DomHelper.createTemplate(this.tpl), this.values, this.el).children[0];
+
+            this.afterRender();
+
+            return this;
+        },
+
+        startDrag: function () {
+
+
+        },
+        afterRender: function () {
+            var me = this;
+
+            me.on('mousemove', me.onMouseMove);
+
+            me.dragTracker = new DragTracker({
+                el:me.el ,
+                onBeforeStart: Execljs.Function.bind(me.onBeforeStart, me),
+                onStart: Execljs.Function.bind(me.onStart, me),
+                onDrag: Execljs.Function.bind (me.onDrag, me),
+                onEnd:  Execljs.Function.bind(me.onEnd, me)
+            });
+
+
+        },
+
+        onMouseMove: function (e) {
+
+            var me = this ;
+
+            /** already draggin  return **/
+            if(me.dragging){
+
+                return ;
+            }else{
+
+               if(e.relatedTarget.className.indexOf('ddElement') > 0){
+
+                    me.ddel = e.relatedTarget;
+               }else{
+                   me.ddel = null ;
+               }
+
+
+            }
+
+
+
+        }
+    })
+
+    var list = new List(JsExeclHtml.listBody, JsExeclHtml.listTr);
+
+    list.appendTo('contenttab');
 
 
 })

@@ -216,8 +216,18 @@ Event.EventManager.event = {
 
             if (ret !== undefined) {
                 if ((event.result = ret) === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
+
+                    var e = event.originalEvent;
+                    this.isDefaultPrevented = function(){return true};
+
+                    if (e && e.preventDefault) {
+                        e.preventDefault();
+                    }
+                    this.isPropagationStopped = function(){return true};
+                    if (e && e.stopPropagation) {
+
+                        e.stopPropagation();
+                    }
                 }
             }
         }
@@ -328,7 +338,11 @@ Event.EventManager.Event = function (src, props) {
     this.relatedTarget = EventEventManager.getRelatedTarget(event);
 
     this.xy = EventEventManager.getPageXY(event);
-
+    this.getElementByCls = function(cls){
+        var out = [];
+            Element.getElByCls(this.relatedTarget , cls ,out);
+        return out[0];
+    }
 
     // Mark it as fixed
     this[Execljs.DataObj.expando] = true;
