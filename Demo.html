@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="JsExeclCss/jsbasecss.css" type="text/css"/>
 </head>
 <script type="text/javascript" src="DomHelp.js" charset="utf-8"></script>
+<script type="text/javascript" src="Resouse.js" charset="utf-8"></script>
 <script type="text/javascript" src="Event.js" charset="utf-8"></script>
 <script type="text/javascript" src="DragDrop.js" charset="utf-8"></script>
 <script type="text/javascript" src="Element.js" charset="utf-8"></script>
@@ -27,14 +28,7 @@
                 <table>
                     <tr>
                         <td>
-                            <div class="headcontent">
-                                <span class="triTop"></span>
-                            </div>
-                        </td>
-
-                        <td>
                             <div>A
-
                                 <span class="deltaX"></span>
                             </div>
                         </td>
@@ -87,201 +81,31 @@
                         </td>
 
 
-
                     </tr>
                 </table>
             </div>
 
-            <div class="list">
-
-                <table>
-                    <tr>
-                        <td>
-                            <div>1
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>2
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>3
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>4
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>5
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>6
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>7
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>8
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>9
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>10
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>11
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>12
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>13
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>14
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>15
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>16
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>17
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>18
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>19
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>20
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>20
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>20
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>20
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>20
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>20
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>20
-                                <div class="deltaY"></div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-
+            <div style="border: 1px solid red ;background-color: #f3f3e3;width: 100% ;height: 100%; display: inline-block;position: absolute ;top: 24px;">
+                <h3> 右边列表注意事项</h3>
+                <ul style="">
+                    <li>1.监控鼠标移动事件 ,添加hover ? js 还是css ,可能要修改为A标签 ,拒绝Js 节约性能</li>
+                    <li>2.监控鼠标按下事件 ,如果有colResize 记录</li>
+                    <li>3.向下拖动和向上拖动的不同
+                        <ul>
+                            <li>1.向下只是单纯拖开 ,增加单元格高度</li>
+                            <li>2.向上侦测单元格高度 ,递归减少上单元格高度</li>
+                            <li>3.向上拖动会留一个hook ,方便再次向下拖动 ,感觉囝囝的</li>
+                        </ul>
+                    </li>
+                    <li>4.tip添加功能</li>
+                    <li>5.contextMen</li>
+                    <li>6.慢慢来</li>
+                    <li>重写event 垃圾的很</li>
+                    <li>添加移除事件功能</li>
+                    <li>看看源码</li>
+                </ul>
 
             </div>
-
             <div class="vscrollbar">
 
                 <div class="scrollbararrow arrowtop">
